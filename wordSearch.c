@@ -90,7 +90,7 @@ int checkFinished(int numWords, int wordCoordinates[numWords][3]){
 
 
 
-//DAN/MARK/OTHER?
+//DAN
 void playGame(int numWords, int n, int wordCoordinates[numWords][3], char words[numWords][n+1]){
 	int gameDone = 0; 
 	while (gameDone == 0){
