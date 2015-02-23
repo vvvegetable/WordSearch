@@ -52,8 +52,7 @@ void printKey(int numWords, int n, char words[numWords][n+1]){
 	printf("%d) %s\n\n",i+1,words[numWords-1]);
 }
 
-
-//NEW FUNCTION FOR SOMEONE TO CODE: 
+//NEW FUNCTION FOR SOMEONE
 int checkWordsRemain(int numWords, int wordCoordinates[numWords][3]){
 	int wordNum = 0; 
 	printf("Please enter the word number you want to check (0 to exit): "); 
@@ -69,12 +68,16 @@ int checkWordsRemain(int numWords, int wordCoordinates[numWords][3]){
 	while (check == 1){
 		printf("You have already found that word, please try again: ");
 		result = scanf("%d", &wordNum); 
-		check = wordCoordinates[wordNum-1][2]; 	
+		check = wordCoordinates[wordNum-1][2]; 
+		if (result != 1){
+			printf("Incorrect input, exiting...\n");
+			exit(1); 
+		}	
 	}
 	return wordNum;
 }
 
-//NEW FUNCTION FOR SOMEONE TO CODE: 
+//NEW FUNCTION FOR SOMEONE
 int checkFinished(int numWords, int wordCoordinates[numWords][3]){
 	int gameDone = 1; 
 	int i; 
@@ -87,8 +90,6 @@ int checkFinished(int numWords, int wordCoordinates[numWords][3]){
 		printf("YOU WON! Thanks for playing!\n");
 	return gameDone; 
 }
-
-
 
 //DAN
 void playGame(int numWords, int n, int wordCoordinates[numWords][3], char words[numWords][n+1]){
@@ -104,6 +105,14 @@ void playGame(int numWords, int n, int wordCoordinates[numWords][3], char words[
 			printf("Incorrect input, exiting...\n");
 			exit(1); 
 		} int check = wordCoordinates[wordNum-1][1]; 	//check if the entered X coordinate is correct
+		while (xLoc < 1 || xLoc > n){
+			printf("The number you have entered is out of bounds, please enter a number between 1 and %d: ", n);
+			result = scanf("%d", &xLoc); 
+			if (result != 1){
+				printf("Incorrect input, exiting...\n");
+				exit(1); 
+			}
+		}
 		if (check != xLoc){
 			printf("Sorry that wasn't correct\n");
 		} else{
@@ -112,7 +121,15 @@ void playGame(int numWords, int n, int wordCoordinates[numWords][3], char words[
 			if (result != 1){
 				printf("Incorrect input, exiting...\n");
 				exit(1); 
-			} check = wordCoordinates[wordNum-1][0]; 	//check if the entered X coordinate is correct		
+			} check = wordCoordinates[wordNum-1][0]; 	//check if the entered X coordinate is correct	
+			while (yLoc < 1 || yLoc > n){
+				printf("The number you have entered is out of bounds, please enter a number between 1 and %d: ", n);
+				result = scanf("%d", &yLoc); 
+				if (result != 1){
+					printf("Incorrect input, exiting...\n");
+					exit(1); 
+				}
+			}	
 			if (check != yLoc){
 				printf("Sorry that wasn't correct\n");
 			} else {
@@ -122,8 +139,6 @@ void playGame(int numWords, int n, int wordCoordinates[numWords][3], char words[
 		}	
 	}
 }
-
-
 
 void reverseString(int length, char reverse[length])
 {
