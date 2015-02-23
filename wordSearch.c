@@ -52,72 +52,93 @@ void printKey(int numWords, int n, char words[numWords][n+1]){
 	printf("%d) %s\n\n",i+1,words[numWords-1]);
 }
 
-//DAN/MARK/OTHER?
+//NEW FUNCTION FOR SOMEONE
+int checkWordsRemain(int numWords, int wordCoordinates[numWords][3]){
+	int wordNum = 0; 
+	printf("Please enter the word number you want to check (0 to exit): "); 
+	int result = scanf("%d", &wordNum); 
+	if (wordNum == 0){
+		exit(0); 
+	}
+	if (result != 1){
+		printf("Incorrect input, exiting...\n");
+		exit(1); 
+	}
+	int check = wordCoordinates[wordNum-1][2];    // check if the word has already been found
+	while (check == 1){
+		printf("You have already found that word, please try again: ");
+		result = scanf("%d", &wordNum); 
+		check = wordCoordinates[wordNum-1][2]; 
+		if (result != 1){
+			printf("Incorrect input, exiting...\n");
+			exit(1); 
+		}	
+	}
+	return wordNum;
+}
+
+//NEW FUNCTION FOR SOMEONE
+int checkFinished(int numWords, int wordCoordinates[numWords][3]){
+	int gameDone = 1; 
+	int i; 
+	for (i = 0; i < numWords; i++){
+		if (wordCoordinates[i][2] == 0){
+			gameDone = 0;   //set gameDone to 0 and continue loop if 0 is found
+		}
+	}
+	if (gameDone == 1)
+		printf("YOU WON! Thanks for playing!\n");
+	return gameDone; 
+}
+
+//DAN
 void playGame(int numWords, int n, int wordCoordinates[numWords][3], char words[numWords][n+1]){
-	
-	
-	//NEED TO ADD AN EXIT FUNCTION
-	// NEED TO MAKE SURE NUMBER ENTERED IS IN A VALID RANGE
 	int gameDone = 0; 
 	while (gameDone == 0){
 		int wordNum = 0; 
 		int xLoc = 0; 
 		int yLoc = 0; 
-		printf("Please enter the word number you want to check (0 to exit): "); 
-		int result = scanf("%d", &wordNum); 
-		if (wordNum == 0){
-			exit(0); 
-		}
-		if (result != 1){
-			printf("Incorrect input, exiting...\n");
-			exit(1); 
-		}
-		int check = wordCoordinates[wordNum-1][2];    // check if the word has already been found
-		while (check == 1){
-			printf("You have already found that word, please try again: ");
-			result = scanf("%d", &wordNum); 
-			check = wordCoordinates[wordNum-1][2]; 	
-		}
+		wordNum = checkWordsRemain(numWords, wordCoordinates);
 		printf("What row do you think '%s' appears in: ", words[wordNum-1]);
-		result = scanf("%d", &xLoc); 
+		int result = scanf("%d", &xLoc); 
 		if (result != 1){
 			printf("Incorrect input, exiting...\n");
 			exit(1); 
+		} int check = wordCoordinates[wordNum-1][1]; 	//check if the entered X coordinate is correct
+		while (xLoc < 1 || xLoc > n){
+			printf("The number you have entered is out of bounds, please enter a number between 1 and %d: ", n);
+			result = scanf("%d", &xLoc); 
+			if (result != 1){
+				printf("Incorrect input, exiting...\n");
+				exit(1); 
+			}
 		}
-		check = wordCoordinates[wordNum-1][1]; 	//check if the entered X coordinate is correct
 		if (check != xLoc){
 			printf("Sorry that wasn't correct\n");
-		}
-		else{
+		} else{
 			printf("CORRECT! Now what column do you think the first letter of '%s' appears in: ", words[wordNum-1]);
 			result = scanf("%d", &yLoc); 
 			if (result != 1){
 				printf("Incorrect input, exiting...\n");
 				exit(1); 
-			}
-			check = wordCoordinates[wordNum-1][0]; 	//check if the entered X coordinate is correct		
+			} check = wordCoordinates[wordNum-1][0]; 	//check if the entered X coordinate is correct	
+			while (yLoc < 1 || yLoc > n){
+				printf("The number you have entered is out of bounds, please enter a number between 1 and %d: ", n);
+				result = scanf("%d", &yLoc); 
+				if (result != 1){
+					printf("Incorrect input, exiting...\n");
+					exit(1); 
+				}
+			}	
 			if (check != yLoc){
 				printf("Sorry that wasn't correct\n");
-			}
-			else {
+			} else {
 				printf("CORRECT!\n");
 				wordCoordinates[wordNum-1][2] = 1;   //word marked as found
-			}
-			
-			//check if all words have been found
-			gameDone = 1;
-			int i; 
-			for (i = 0; i < numWords; i++){
-				if (wordCoordinates[i][2] == 0){
-					gameDone = 0;   //set gameDone to 0 and continue loop if 0 is found
-				}
-			}
-			if (gameDone == 1)
-				printf("YOU WON! Thanks for playing!\n");
+			} gameDone = checkFinished(numWords, wordCoordinates); 			//check if all words have been found
 		}	
 	}
 }
-
 
 void reverseString(int length, char reverse[length])
 {
