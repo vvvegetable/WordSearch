@@ -4,9 +4,49 @@
 
 //LARRY CODE HERE: 
 // Test Git
-
-
-
+void getWords(int size,int numWords,char *words[numWords]) {
+	int usedWords[numWords]; //so we don't get repeats when selecting random words
+	memset (usedWords, -1, sizeof(usedWords));   //set array to -1s
+	const char *w[100]; //I can't think of an easier way to store a list of 100 words
+	w[0]="cub";w[1]="one";w[2]="fog";w[3]="act";w[4]="try";
+	w[5]="ban";w[6]="real";w[7]="join";w[8]="town";w[9]="peck";
+	w[10]="wish";w[11]="hate";w[12]="kind";w[13]="rate";w[14]="mint";
+	w[15]="turn";w[16]="rose";w[17]="roll";w[18]="head";w[19]="bite";
+	w[20]="angry";w[21]="found";w[22]="crash";w[23]="sable";w[24]="smile";
+	w[25]="reign";w[26]="blade";w[27]="goofy";w[28]="plain";w[29]="rings";
+	w[30]="house";w[31]="pause";w[32]="level";w[33]="large";w[34]="rigid";
+	w[35]="earth";w[36]="trust";w[37]="itchy";w[38]="brass";w[39]="curvy";
+	w[40]="heady";w[41]="witty";w[42]="drain";w[43]="nippy";w[44]="ducks";
+	w[45]="spell";w[46]="class";w[47]="obtain";w[48]="plucky";w[49]="craven";
+	w[50]="double";w[51]="sponge";w[52]="grubby";w[53]="tested";w[54]="search";
+	w[55]="absent";w[56]="friend";w[57]="amount";w[58]="famous";w[59]="sordid";
+	w[60]="chilly";w[61]="belief";w[62]="shrill";w[63]="settle";w[64]="weather";
+	w[65]="stomach";w[66]="violent";w[67]="contain";w[68]="morning";w[69]="married";
+	w[70]="popcorn";w[71]="ancient";w[72]="undress";w[73]="lacking";w[74]="thirsty";
+	w[75]="limping";w[76]="connect";w[77]="unkempt";w[78]="precede";w[79]="whisper";
+	w[80]="careless";w[81]="vengeful";w[82]="umbrella";w[83]="position";w[84]="multiply";
+	w[85]="cheerful";w[86]="heavenly";w[87]="gruesome";w[88]="religion";w[89]="quixotic";
+	w[90]="alcoholic";w[91]="grandiose";w[92]="beautiful";w[93]="thinkable";w[94]="miniature";
+	w[95]="vivacious";w[96]="voracious";w[97]="connection";w[98]="comfortable";w[99]="advertisement";
+	int lengthIndex = 99;
+	while (strlen(w[lengthIndex]) > size)
+		lengthIndex--; //find all words that fit inside the grid
+	int i;
+	for (i=0; i < numWords; i++) {
+		int indexOK; //a boolean used to check if randIndex any indexes in usedWords
+		do {
+			indexOK = 1; //word is OK by default
+			int randIndex = rand() % lengthIndex; //grab a random word
+			int j;
+			for (j=0; j < numWords; j++) {
+				if (randIndex == usedWords[j]) //check if index matches any previous ones
+					indexOK = 0; //if so, set indexOK to false
+			}
+			strcpy(words[i], w[randIndex]); //copy the rand string into words
+			usedWords[i] = randIndex; //save this index
+		} while (!indexOK);
+	}
+}
 
 //ANNIE
 int getSize(){
@@ -44,7 +84,7 @@ void printGrid(int size, char grid[size][size+1]) {
 }
 
 //LARRY
-void printKey(int numWords, int n, char words[numWords][n+1]){
+void printKey(int numWords, int n, char *words[numWords]){
 	int i;
 	printf("\nWORD KEY:\n");
 	for (i=0; i< numWords-1; i++){
@@ -93,7 +133,7 @@ int checkFinished(int numWords, int wordCoordinates[numWords][3]){
 }
 
 //DAN
-void playGame(int numWords, int n, int wordCoordinates[numWords][3], char words[numWords][n+1]){
+void playGame(int numWords, int n, int wordCoordinates[numWords][3], char *words[numWords]){
 	int gameDone = 0; 
 	while (gameDone == 0){
 		int wordNum = 0; 
@@ -150,7 +190,7 @@ void reverseString(int length, char reverse[length])
     reverse = temp;
 }
 
-void createMatrix (int n, char words[n][n+1], int numWords, int wordCoordinates[numWords][3], char grid[n][n+1]){
+void createMatrix (int n, int numWords, char *words[numWords], int wordCoordinates[numWords][3], char grid[n][n+1]){
 	
 	int usedRows[n];		//keeps track of the rows occupied by a word 
 	memset (usedRows, 0, sizeof(usedRows));   //set array to zeros
@@ -201,28 +241,19 @@ void createMatrix (int n, char words[n][n+1], int numWords, int wordCoordinates[
 
 
 //PAUL/CARTER/ANNIE/OTHER? 
-int main(){	 
-	
-	
+int main(){
 	int n = getSize();
-	//GET WORDS - outputs 1D/2D array of words: 
-	int numWords = 5;
-	
-	//THIS WILL BE DELETED AFTER LARRY'S FUNCTION IS IN: 
-	char words[n][n+1]; //n+1 is to make space for '\0'
-	strcpy(words[0], "mahogany");
-	strcpy(words[1], "plywood");
-	strcpy(words[2], "melanine");
-	strcpy(words[3], "oak");
-	strcpy(words[4], "birch");
-	
-	
-	int wordCoordinates[numWords][3];   //the coordinates for the start of each word (row,col)
-	char finalArray[n][n+1]; 
-	createMatrix(n, words, numWords, wordCoordinates, finalArray);
-	
+	int numWords = n/2;
 
+	char *words[numWords]; //declared this way because space must be malloced, otherwise it gets overwritten
+	int i;
+	for (i=0; i < n; i++)
+		words[i] = malloc((n+1) * sizeof(char)); //n+1 is to make space for '\0'
+	getWords(n, numWords, words); //copies random words size <= n from a list of 100
 	
+	int wordCoordinates[numWords][3]; //the coordinates for the start of each word (row,col)
+	char finalArray[n][n+1]; //the wordsearch itself
+	createMatrix(n, numWords, words, wordCoordinates, finalArray);
 	
 	printGrid(n, finalArray);
 	printKey(numWords, n, words);
