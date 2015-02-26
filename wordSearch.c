@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-//LARRY CODE HERE: 
-// Test Git
+//CODE FOR SOMEONE: 
 void getWords(int size,int numWords,char *words[numWords]) {
 	int usedWords[numWords]; //so we don't get repeats when selecting random words
 	memset (usedWords, -1, sizeof(usedWords));   //set array to -1s
@@ -83,7 +82,7 @@ void printGrid(int size, char grid[size][size+1]) {
 	}	
 }
 
-//LARRY
+//ANNIE
 void printKey(int numWords, int n, char *words[numWords]){
 	int i;
 	printf("\nWORD KEY:\n");
@@ -181,6 +180,7 @@ void playGame(int numWords, int n, int wordCoordinates[numWords][3], char *words
 	}
 }
 
+//CODE FOR SOMEONE: 
 void reverseString(int length, char reverse[length])
 {
     char temp [length];
@@ -190,6 +190,7 @@ void reverseString(int length, char reverse[length])
     reverse = temp;
 }
 
+//CARTER AND PAUL
 void createMatrix (int n, int numWords, char *words[numWords], int wordCoordinates[numWords][3], char grid[n][n+1]){
 	
 	int usedRows[n];		//keeps track of the rows occupied by a word 
@@ -240,7 +241,7 @@ void createMatrix (int n, int numWords, char *words[numWords], int wordCoordinat
 }
 
 
-//PAUL/CARTER/ANNIE/OTHER? 
+//CODE FOR SOMEONE  
 int main(){
 	int n = getSize();
 	int numWords = n/2;
