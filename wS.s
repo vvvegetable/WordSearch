@@ -926,47 +926,47 @@ getSize:
 	stmfd	sp!, {fp, lr}
 	add	fp, sp, #4
 	sub	sp, sp, #8
-	mov	r3, #0
+	mov	r3, #0			@load the message
 	str	r3, [fp, #-12]
 	ldr	r3, .L27
-	mov	r0, r3
-	bl	printf
+	mov	r0, r3			@load the format
+	bl	printf			@print the question for size
 	ldr	r2, .L27+4
-	sub	r3, fp, #12
+	sub	r3, fp, #12		@load scan format
 	mov	r0, r2
 	mov	r1, r3
-	bl	__isoc99_scanf
-	str	r0, [fp, #-8]
-	ldr	r3, [fp, #-8]
-	cmp	r3, #1
+	bl	__isoc99_scanf		@scan the input
+	str	r0, [fp, #-8]		@store as result
+	ldr	r3, [fp, #-8]		@load result
+	cmp	r3, #1			@compare result
 	beq	.L26
-	ldr	r0, .L27+8
-	bl	puts
+	ldr	r0, .L27+8		@load the incorrect message
+	bl	puts			@show the incorrect message
 	mov	r0, #1
-	bl	exit
-.L25:
-	ldr	r3, .L27+12
+	bl	exit			@exit
+.L25:					@size<=9 or size>20
+	ldr	r3, .L27+12		@load reput message
 	mov	r0, r3
-	bl	printf
+	bl	printf			@print the reput message
 	ldr	r2, .L27+16
-	sub	r3, fp, #12
+	sub	r3, fp, #12		@load scan format
 	mov	r0, r2
 	mov	r1, r3
-	bl	__isoc99_scanf
-	str	r0, [fp, #-8]
+	bl	__isoc99_scanf		@scan the input
+	str	r0, [fp, #-8]		@store as size
 	b	.L24
-.L26:
+.L26:					@result == 1
 	mov	r0, r0	@ nop
 .L24:
-	ldr	r3, [fp, #-12]
-	cmp	r3, #9
+	ldr	r3, [fp, #-12]		@load the input size
+	cmp	r3, #9			@compare size and 9
 	ble	.L25
-	ldr	r3, [fp, #-12]
-	cmp	r3, #20
+	ldr	r3, [fp, #-12]		@load the input size
+	cmp	r3, #20			@compare size and 20
 	bgt	.L25
-	ldr	r3, [fp, #-12]
+	ldr	r3, [fp, #-12]		@load the size in correct range
 	mov	r0, r3
-	sub	sp, fp, #4
+	sub	sp, fp, #4		@return size
 	ldmfd	sp!, {fp, pc}
 .L28:
 	.align	2
