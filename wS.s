@@ -463,11 +463,11 @@ getWords:
 	@ args = 0, pretend = 0, frame = 448
 	@ frame_needed = 1, uses_anonymous_args = 0
 	stmfd	sp!, {r4, r5, r6, r7, r8, fp, lr}
-	add	fp, sp, #24
-	sub	sp, sp, #452
-	str	r0, [fp, #-464]
-	str	r1, [fp, #-468]
-	str	r2, [fp, #-472]
+	add	fp, sp, #24		@create new fp to be used
+	sub	sp, sp, #452		@reserve space for local vars and copies of params
+	str	r0, [fp, #-464]		@copy param size to stack
+	str	r1, [fp, #-468]		@copy param numWords to stack
+	str	r2, [fp, #-472]		@copy param words to stack
 	mov	r3, sp
 	mov	r8, r3
 	ldr	r0, [fp, #-468]
@@ -506,7 +506,7 @@ getWords:
 	mvn	r1, #0
 	mov	r2, r3
 	bl	memset
-	ldr	r3, .L20
+	ldr	r3, .L20		@load the wordList to memory
 	str	r3, [fp, #-456]
 	ldr	r3, .L20+4
 	str	r3, [fp, #-452]
@@ -708,92 +708,92 @@ getWords:
 	str	r3, [fp, #-60]
 	mov	r3, #99
 	str	r3, [fp, #-32]
-	b	.L13
-.L14:
-	ldr	r3, [fp, #-32]
-	sub	r3, r3, #1
+	b	.L13			@goes to L13 start the main loop
+.L14:					@after check the StrLen>size go to the next word
+	ldr	r3, [fp, #-32]		@load the word on check
+	sub	r3, r3, #1		@change the check word to the next
 	str	r3, [fp, #-32]
-.L13:
+.L13:					@the part check the strLen with the size
 	ldr	r2, [fp, #-32]
-	ldr	r3, .L20+400
-	mov	r2, r2, asl #2
+	ldr	r3, .L20+400		@start with the first word
+	mov	r2, r2, asl #2		@load the next word
 	sub	r0, fp, #28
 	add	r2, r0, r2
 	add	r3, r2, r3
-	ldr	r3, [r3, #0]
+	ldr	r3, [r3, #0]		@load the word on check
 	mov	r0, r3
-	bl	strlen
+	bl	strlen			@get strLen of the words
 	mov	r3, r0
 	mov	r2, r3
-	ldr	r3, [fp, #-464]
-	cmp	r2, r3
-	bhi	.L14
+	ldr	r3, [fp, #-464]		@load the strLen
+	cmp	r2, r3			@load the size
+	bhi	.L14			@compare the strLen with the size
 	mov	r3, #0
 	str	r3, [fp, #-36]
 	b	.L15
-.L19:
+.L19:					@after L15 go into the for loop, random a number in range or after L16 indexOK == 0
 	mov	r3, #1
 	str	r3, [fp, #-40]
-	bl	rand
+	bl	rand			@random a number
 	mov	r3, r0
-	mov	r0, r3
-	ldr	r1, [fp, #-32]
-	bl	__aeabi_idivmod
+	mov	r0, r3			@load the random number
+	ldr	r1, [fp, #-32]		@load the lengthIndex
+	bl	__aeabi_idivmod		@random % lengthIndex
 	mov	r3, r1
-	str	r3, [fp, #-56]
+	str	r3, [fp, #-56]		@store randIndex
 	mov	r3, #0
-	str	r3, [fp, #-44]
+	str	r3, [fp, #-44]		@store j for L16
 	b	.L16
-.L18:
+.L18:					@after L16 if j > numWords
 	ldr	r3, [fp, #-52]
 	ldr	r2, [fp, #-44]
-	ldr	r2, [r3, r2, asl #2]
-	ldr	r3, [fp, #-56]
-	cmp	r2, r3
+	ldr	r2, [r3, r2, asl #2]	@load usedWords[j]
+	ldr	r3, [fp, #-56]		@load randIndex
+	cmp	r2, r3			@compare randIndex and usedWords[j]
 	bne	.L17
-	mov	r3, #0
+	mov	r3, #0			@set indexOK to 0
 	str	r3, [fp, #-40]
-.L17:
+.L17:					@after L18 randIndex != usedWords[j]
 	ldr	r3, [fp, #-44]
 	add	r3, r3, #1
-	str	r3, [fp, #-44]
-.L16:
-	ldr	r2, [fp, #-44]
-	ldr	r3, [fp, #-468]
-	cmp	r2, r3
+	str	r3, [fp, #-44]		@j++
+.L16:					@after the L8 do part check if the word is ok
+	ldr	r2, [fp, #-44]		@load j
+	ldr	r3, [fp, #-468]		@load randIndex
+	cmp	r2, r3			@compare j and numWords
 	blt	.L18
 	ldr	r3, [fp, #-36]
 	mov	r3, r3, asl #2
 	ldr	r2, [fp, #-472]
-	add	r3, r2, r3
+	add	r3, r2, r3		@get the random number on index
 	ldr	r2, [r3, #0]
-	ldr	r1, [fp, #-56]
-	ldr	r3, .L20+400
+	ldr	r1, [fp, #-56]		@load w[randIndex]
+	ldr	r3, .L20+400		@get the wordList
 	mov	r1, r1, asl #2
 	sub	r0, fp, #28
 	add	r1, r0, r1
-	add	r3, r1, r3
-	ldr	r3, [r3, #0]
+	add	r3, r1, r3		@get i
+	ldr	r3, [r3, #0]		@load words[i]
 	mov	r0, r2
 	mov	r1, r3
-	bl	strcpy
+	bl	strcpy			@strcpy(words[i], w[randIndex])
 	ldr	r3, [fp, #-52]
 	ldr	r2, [fp, #-36]
 	ldr	r1, [fp, #-56]
 	str	r1, [r3, r2, asl #2]
 	ldr	r3, [fp, #-40]
-	cmp	r3, #0
+	cmp	r3, #0			@indexOK and 0(true)
 	beq	.L19
 	ldr	r3, [fp, #-36]
 	add	r3, r3, #1
-	str	r3, [fp, #-36]
-.L15:
-	ldr	r2, [fp, #-36]
-	ldr	r3, [fp, #-468]
-	cmp	r2, r3
+	str	r3, [fp, #-36]		@i ++
+.L15:					@after the L13 check the strLen fit the size
+	ldr	r2, [fp, #-36]		@load i
+	ldr	r3, [fp, #-468]		@load numWords
+	cmp	r2, r3			@compare the i and the numWords
 	blt	.L19
 	mov	sp, r8
-	sub	sp, fp, #24
+	sub	sp, fp, #24		@end of the main loop
 	ldmfd	sp!, {r4, r5, r6, r7, r8, fp, pc}
 .L21:
 	.align	2
@@ -927,9 +927,9 @@ getSize:
 	add	fp, sp, #4
 	sub	sp, sp, #8
 	mov	r3, #0
-	str	r3, [fp, #-12]
+	str	r3, [fp, #-12]		
 	ldr	r3, .L27
-	mov	r0, r3
+	mov	r0, r3	
 	bl	printf
 	ldr	r2, .L27+4
 	sub	r3, fp, #12
