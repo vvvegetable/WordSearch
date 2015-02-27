@@ -10,307 +10,449 @@
 	.eabi_attribute 26, 2
 	.eabi_attribute 30, 6
 	.eabi_attribute 18, 4
-	.file	"wS.c"
+	.file	"project1.c"
 	.section	.rodata
 	.align	2
 .LC0:
-	.ascii	"cub\000"
+	.ascii	"Would you like to play again?(y/n) \000"
 	.align	2
 .LC1:
-	.ascii	"one\000"
+	.ascii	"%c\012\000"
 	.align	2
 .LC2:
-	.ascii	"fog\000"
+	.ascii	"Incorrect input, exiting.\000"
 	.align	2
 .LC3:
-	.ascii	"act\000"
+	.ascii	"Incorrect input. \000"
+	.text
+	.align	2
+	.global	playAgain
+	.type	playAgain, %function
+playAgain:
+	@ args = 0, pretend = 0, frame = 8
+	@ frame_needed = 1, uses_anonymous_args = 0
+	stmfd	sp!, {fp, lr}
+	add	fp, sp, #4
+	sub	sp, sp, #8
+	ldr	r3, .L6
+	mov	r0, r3
+	bl	printf
+	ldr	r2, .L6+4
+	sub	r3, fp, #9
+	mov	r0, r2
+	mov	r1, r3
+	bl	__isoc99_scanf
+	str	r0, [fp, #-8]
+	ldr	r3, [fp, #-8]
+	cmp	r3, #1
+	beq	.L2
+	ldr	r0, .L6+8
+	bl	puts
+	mov	r0, #1
+	bl	exit
+.L2:
+	ldrb	r3, [fp, #-9]	@ zero_extendqisi2
+	cmp	r3, #121
+	bne	.L3
+	mov	r3, #1
+	b	.L4
+.L3:
+	ldrb	r3, [fp, #-9]	@ zero_extendqisi2
+	cmp	r3, #110
+	bne	.L5
+	mov	r3, #0
+	b	.L4
+.L5:
+	ldr	r0, .L6+12
+	bl	puts
+	bl	playAgain
+	mov	r3, r0
+.L4:
+	mov	r0, r3
+	sub	sp, fp, #4
+	ldmfd	sp!, {fp, pc}
+.L7:
+	.align	2
+.L6:
+	.word	.LC0
+	.word	.LC1
+	.word	.LC2
+	.word	.LC3
+	.size	playAgain, .-playAgain
+	.section	.rodata
 	.align	2
 .LC4:
-	.ascii	"try\000"
+	.ascii	"Enter your name: \000"
 	.align	2
 .LC5:
-	.ascii	"ban\000"
+	.ascii	"%s\012\000"
 	.align	2
 .LC6:
-	.ascii	"real\000"
+	.ascii	"Incorrect input, exiting. \000"
 	.align	2
 .LC7:
-	.ascii	"join\000"
+	.ascii	"Hello %s, your final score was %d out of a possible"
+	.ascii	" %d. You made %d mistakes.\012\000"
+	.text
+	.align	2
+	.global	displayInfo
+	.type	displayInfo, %function
+displayInfo:
+	@ args = 0, pretend = 0, frame = 24
+	@ frame_needed = 1, uses_anonymous_args = 0
+	stmfd	sp!, {fp, lr}
+	add	fp, sp, #4
+	sub	sp, sp, #32
+	str	r0, [fp, #-24]
+	str	r1, [fp, #-28]
+	ldr	r3, .L10
+	mov	r0, r3
+	bl	printf
+	ldr	r3, .L10+4
+	mov	r0, r3
+	ldr	r1, [fp, #-8]
+	bl	__isoc99_scanf
+	str	r0, [fp, #-12]
+	ldr	r3, [fp, #-12]
+	cmp	r3, #1
+	beq	.L9
+	ldr	r0, .L10+8
+	bl	puts
+	mov	r0, #1
+	bl	exit
+.L9:
+	ldr	r2, [fp, #-28]
+	mov	r3, r2
+	mov	r3, r3, asl #2
+	add	r3, r3, r2
+	str	r3, [fp, #-16]
+	ldr	r2, [fp, #-16]
+	ldr	r3, [fp, #-24]
+	rsb	r3, r3, r2
+	ldr	r2, .L10+12
+	smull	r1, r2, r2, r3
+	mov	r3, r3, asr #31
+	rsb	r3, r3, r2
+	str	r3, [fp, #-20]
+	ldr	r3, .L10+16
+	ldr	r2, [fp, #-20]
+	str	r2, [sp, #0]
+	mov	r0, r3
+	ldr	r1, [fp, #-8]
+	ldr	r2, [fp, #-24]
+	ldr	r3, [fp, #-16]
+	bl	printf
+	sub	sp, fp, #4
+	ldmfd	sp!, {fp, pc}
+.L11:
+	.align	2
+.L10:
+	.word	.LC4
+	.word	.LC5
+	.word	.LC6
+	.word	1431655766
+	.word	.LC7
+	.size	displayInfo, .-displayInfo
+	.section	.rodata
 	.align	2
 .LC8:
-	.ascii	"town\000"
+	.ascii	"cub\000"
 	.align	2
 .LC9:
-	.ascii	"peck\000"
+	.ascii	"one\000"
 	.align	2
 .LC10:
-	.ascii	"wish\000"
+	.ascii	"fog\000"
 	.align	2
 .LC11:
-	.ascii	"hate\000"
+	.ascii	"act\000"
 	.align	2
 .LC12:
-	.ascii	"kind\000"
+	.ascii	"try\000"
 	.align	2
 .LC13:
-	.ascii	"rate\000"
+	.ascii	"ban\000"
 	.align	2
 .LC14:
-	.ascii	"mint\000"
+	.ascii	"real\000"
 	.align	2
 .LC15:
-	.ascii	"turn\000"
+	.ascii	"join\000"
 	.align	2
 .LC16:
-	.ascii	"rose\000"
+	.ascii	"town\000"
 	.align	2
 .LC17:
-	.ascii	"roll\000"
+	.ascii	"peck\000"
 	.align	2
 .LC18:
-	.ascii	"head\000"
+	.ascii	"wish\000"
 	.align	2
 .LC19:
-	.ascii	"bite\000"
+	.ascii	"hate\000"
 	.align	2
 .LC20:
-	.ascii	"angry\000"
+	.ascii	"kind\000"
 	.align	2
 .LC21:
-	.ascii	"found\000"
+	.ascii	"rate\000"
 	.align	2
 .LC22:
-	.ascii	"crash\000"
+	.ascii	"mint\000"
 	.align	2
 .LC23:
-	.ascii	"sable\000"
+	.ascii	"turn\000"
 	.align	2
 .LC24:
-	.ascii	"smile\000"
+	.ascii	"rose\000"
 	.align	2
 .LC25:
-	.ascii	"reign\000"
+	.ascii	"roll\000"
 	.align	2
 .LC26:
-	.ascii	"blade\000"
+	.ascii	"head\000"
 	.align	2
 .LC27:
-	.ascii	"goofy\000"
+	.ascii	"bite\000"
 	.align	2
 .LC28:
-	.ascii	"plain\000"
+	.ascii	"angry\000"
 	.align	2
 .LC29:
-	.ascii	"rings\000"
+	.ascii	"found\000"
 	.align	2
 .LC30:
-	.ascii	"house\000"
+	.ascii	"crash\000"
 	.align	2
 .LC31:
-	.ascii	"pause\000"
+	.ascii	"sable\000"
 	.align	2
 .LC32:
-	.ascii	"level\000"
+	.ascii	"smile\000"
 	.align	2
 .LC33:
-	.ascii	"large\000"
+	.ascii	"reign\000"
 	.align	2
 .LC34:
-	.ascii	"rigid\000"
+	.ascii	"blade\000"
 	.align	2
 .LC35:
-	.ascii	"earth\000"
+	.ascii	"goofy\000"
 	.align	2
 .LC36:
-	.ascii	"trust\000"
+	.ascii	"plain\000"
 	.align	2
 .LC37:
-	.ascii	"itchy\000"
+	.ascii	"rings\000"
 	.align	2
 .LC38:
-	.ascii	"brass\000"
+	.ascii	"house\000"
 	.align	2
 .LC39:
-	.ascii	"curvy\000"
+	.ascii	"pause\000"
 	.align	2
 .LC40:
-	.ascii	"heady\000"
+	.ascii	"level\000"
 	.align	2
 .LC41:
-	.ascii	"witty\000"
+	.ascii	"large\000"
 	.align	2
 .LC42:
-	.ascii	"drain\000"
+	.ascii	"rigid\000"
 	.align	2
 .LC43:
-	.ascii	"nippy\000"
+	.ascii	"earth\000"
 	.align	2
 .LC44:
-	.ascii	"ducks\000"
+	.ascii	"trust\000"
 	.align	2
 .LC45:
-	.ascii	"spell\000"
+	.ascii	"itchy\000"
 	.align	2
 .LC46:
-	.ascii	"class\000"
+	.ascii	"brass\000"
 	.align	2
 .LC47:
-	.ascii	"obtain\000"
+	.ascii	"curvy\000"
 	.align	2
 .LC48:
-	.ascii	"plucky\000"
+	.ascii	"heady\000"
 	.align	2
 .LC49:
-	.ascii	"craven\000"
+	.ascii	"witty\000"
 	.align	2
 .LC50:
-	.ascii	"double\000"
+	.ascii	"drain\000"
 	.align	2
 .LC51:
-	.ascii	"sponge\000"
+	.ascii	"nippy\000"
 	.align	2
 .LC52:
-	.ascii	"grubby\000"
+	.ascii	"ducks\000"
 	.align	2
 .LC53:
-	.ascii	"tested\000"
+	.ascii	"spell\000"
 	.align	2
 .LC54:
-	.ascii	"search\000"
+	.ascii	"class\000"
 	.align	2
 .LC55:
-	.ascii	"absent\000"
+	.ascii	"obtain\000"
 	.align	2
 .LC56:
-	.ascii	"friend\000"
+	.ascii	"plucky\000"
 	.align	2
 .LC57:
-	.ascii	"amount\000"
+	.ascii	"craven\000"
 	.align	2
 .LC58:
-	.ascii	"famous\000"
+	.ascii	"double\000"
 	.align	2
 .LC59:
-	.ascii	"sordid\000"
+	.ascii	"sponge\000"
 	.align	2
 .LC60:
-	.ascii	"chilly\000"
+	.ascii	"grubby\000"
 	.align	2
 .LC61:
-	.ascii	"belief\000"
+	.ascii	"tested\000"
 	.align	2
 .LC62:
-	.ascii	"shrill\000"
+	.ascii	"search\000"
 	.align	2
 .LC63:
-	.ascii	"settle\000"
+	.ascii	"absent\000"
 	.align	2
 .LC64:
-	.ascii	"weather\000"
+	.ascii	"friend\000"
 	.align	2
 .LC65:
-	.ascii	"stomach\000"
+	.ascii	"amount\000"
 	.align	2
 .LC66:
-	.ascii	"violent\000"
+	.ascii	"famous\000"
 	.align	2
 .LC67:
-	.ascii	"contain\000"
+	.ascii	"sordid\000"
 	.align	2
 .LC68:
-	.ascii	"morning\000"
+	.ascii	"chilly\000"
 	.align	2
 .LC69:
-	.ascii	"married\000"
+	.ascii	"belief\000"
 	.align	2
 .LC70:
-	.ascii	"popcorn\000"
+	.ascii	"shrill\000"
 	.align	2
 .LC71:
-	.ascii	"ancient\000"
+	.ascii	"settle\000"
 	.align	2
 .LC72:
-	.ascii	"undress\000"
+	.ascii	"weather\000"
 	.align	2
 .LC73:
-	.ascii	"lacking\000"
+	.ascii	"stomach\000"
 	.align	2
 .LC74:
-	.ascii	"thirsty\000"
+	.ascii	"violent\000"
 	.align	2
 .LC75:
-	.ascii	"limping\000"
+	.ascii	"contain\000"
 	.align	2
 .LC76:
-	.ascii	"connect\000"
+	.ascii	"morning\000"
 	.align	2
 .LC77:
-	.ascii	"unkempt\000"
+	.ascii	"married\000"
 	.align	2
 .LC78:
-	.ascii	"precede\000"
+	.ascii	"popcorn\000"
 	.align	2
 .LC79:
-	.ascii	"whisper\000"
+	.ascii	"ancient\000"
 	.align	2
 .LC80:
-	.ascii	"careless\000"
+	.ascii	"undress\000"
 	.align	2
 .LC81:
-	.ascii	"vengeful\000"
+	.ascii	"lacking\000"
 	.align	2
 .LC82:
-	.ascii	"umbrella\000"
+	.ascii	"thirsty\000"
 	.align	2
 .LC83:
-	.ascii	"position\000"
+	.ascii	"limping\000"
 	.align	2
 .LC84:
-	.ascii	"multiply\000"
+	.ascii	"connect\000"
 	.align	2
 .LC85:
-	.ascii	"cheerful\000"
+	.ascii	"unkempt\000"
 	.align	2
 .LC86:
-	.ascii	"heavenly\000"
+	.ascii	"precede\000"
 	.align	2
 .LC87:
-	.ascii	"gruesome\000"
+	.ascii	"whisper\000"
 	.align	2
 .LC88:
-	.ascii	"religion\000"
+	.ascii	"careless\000"
 	.align	2
 .LC89:
-	.ascii	"quixotic\000"
+	.ascii	"vengeful\000"
 	.align	2
 .LC90:
-	.ascii	"alcoholic\000"
+	.ascii	"umbrella\000"
 	.align	2
 .LC91:
-	.ascii	"grandiose\000"
+	.ascii	"position\000"
 	.align	2
 .LC92:
-	.ascii	"beautiful\000"
+	.ascii	"multiply\000"
 	.align	2
 .LC93:
-	.ascii	"thinkable\000"
+	.ascii	"cheerful\000"
 	.align	2
 .LC94:
-	.ascii	"miniature\000"
+	.ascii	"heavenly\000"
 	.align	2
 .LC95:
-	.ascii	"vivacious\000"
+	.ascii	"gruesome\000"
 	.align	2
 .LC96:
-	.ascii	"voracious\000"
+	.ascii	"religion\000"
 	.align	2
 .LC97:
-	.ascii	"connection\000"
+	.ascii	"quixotic\000"
 	.align	2
 .LC98:
-	.ascii	"comfortable\000"
+	.ascii	"alcoholic\000"
 	.align	2
 .LC99:
+	.ascii	"grandiose\000"
+	.align	2
+.LC100:
+	.ascii	"beautiful\000"
+	.align	2
+.LC101:
+	.ascii	"thinkable\000"
+	.align	2
+.LC102:
+	.ascii	"miniature\000"
+	.align	2
+.LC103:
+	.ascii	"vivacious\000"
+	.align	2
+.LC104:
+	.ascii	"voracious\000"
+	.align	2
+.LC105:
+	.ascii	"connection\000"
+	.align	2
+.LC106:
+	.ascii	"comfortable\000"
+	.align	2
+.LC107:
 	.ascii	"advertisement\000"
 	.global	__aeabi_idivmod
 	.text
@@ -364,216 +506,216 @@ getWords:
 	mvn	r1, #0
 	mov	r2, r3
 	bl	memset
-	ldr	r3, .L9
+	ldr	r3, .L20
 	str	r3, [fp, #-456]
-	ldr	r3, .L9+4
+	ldr	r3, .L20+4
 	str	r3, [fp, #-452]
-	ldr	r3, .L9+8
+	ldr	r3, .L20+8
 	str	r3, [fp, #-448]
-	ldr	r3, .L9+12
+	ldr	r3, .L20+12
 	str	r3, [fp, #-444]
-	ldr	r3, .L9+16
+	ldr	r3, .L20+16
 	str	r3, [fp, #-440]
-	ldr	r3, .L9+20
+	ldr	r3, .L20+20
 	str	r3, [fp, #-436]
-	ldr	r3, .L9+24
+	ldr	r3, .L20+24
 	str	r3, [fp, #-432]
-	ldr	r3, .L9+28
+	ldr	r3, .L20+28
 	str	r3, [fp, #-428]
-	ldr	r3, .L9+32
+	ldr	r3, .L20+32
 	str	r3, [fp, #-424]
-	ldr	r3, .L9+36
+	ldr	r3, .L20+36
 	str	r3, [fp, #-420]
-	ldr	r3, .L9+40
+	ldr	r3, .L20+40
 	str	r3, [fp, #-416]
-	ldr	r3, .L9+44
+	ldr	r3, .L20+44
 	str	r3, [fp, #-412]
-	ldr	r3, .L9+48
+	ldr	r3, .L20+48
 	str	r3, [fp, #-408]
-	ldr	r3, .L9+52
+	ldr	r3, .L20+52
 	str	r3, [fp, #-404]
-	ldr	r3, .L9+56
+	ldr	r3, .L20+56
 	str	r3, [fp, #-400]
-	ldr	r3, .L9+60
+	ldr	r3, .L20+60
 	str	r3, [fp, #-396]
-	ldr	r3, .L9+64
+	ldr	r3, .L20+64
 	str	r3, [fp, #-392]
-	ldr	r3, .L9+68
+	ldr	r3, .L20+68
 	str	r3, [fp, #-388]
-	ldr	r3, .L9+72
+	ldr	r3, .L20+72
 	str	r3, [fp, #-384]
-	ldr	r3, .L9+76
+	ldr	r3, .L20+76
 	str	r3, [fp, #-380]
-	ldr	r3, .L9+80
+	ldr	r3, .L20+80
 	str	r3, [fp, #-376]
-	ldr	r3, .L9+84
+	ldr	r3, .L20+84
 	str	r3, [fp, #-372]
-	ldr	r3, .L9+88
+	ldr	r3, .L20+88
 	str	r3, [fp, #-368]
-	ldr	r3, .L9+92
+	ldr	r3, .L20+92
 	str	r3, [fp, #-364]
-	ldr	r3, .L9+96
+	ldr	r3, .L20+96
 	str	r3, [fp, #-360]
-	ldr	r3, .L9+100
+	ldr	r3, .L20+100
 	str	r3, [fp, #-356]
-	ldr	r3, .L9+104
+	ldr	r3, .L20+104
 	str	r3, [fp, #-352]
-	ldr	r3, .L9+108
+	ldr	r3, .L20+108
 	str	r3, [fp, #-348]
-	ldr	r3, .L9+112
+	ldr	r3, .L20+112
 	str	r3, [fp, #-344]
-	ldr	r3, .L9+116
+	ldr	r3, .L20+116
 	str	r3, [fp, #-340]
-	ldr	r3, .L9+120
+	ldr	r3, .L20+120
 	str	r3, [fp, #-336]
-	ldr	r3, .L9+124
+	ldr	r3, .L20+124
 	str	r3, [fp, #-332]
-	ldr	r3, .L9+128
+	ldr	r3, .L20+128
 	str	r3, [fp, #-328]
-	ldr	r3, .L9+132
+	ldr	r3, .L20+132
 	str	r3, [fp, #-324]
-	ldr	r3, .L9+136
+	ldr	r3, .L20+136
 	str	r3, [fp, #-320]
-	ldr	r3, .L9+140
+	ldr	r3, .L20+140
 	str	r3, [fp, #-316]
-	ldr	r3, .L9+144
+	ldr	r3, .L20+144
 	str	r3, [fp, #-312]
-	ldr	r3, .L9+148
+	ldr	r3, .L20+148
 	str	r3, [fp, #-308]
-	ldr	r3, .L9+152
+	ldr	r3, .L20+152
 	str	r3, [fp, #-304]
-	ldr	r3, .L9+156
+	ldr	r3, .L20+156
 	str	r3, [fp, #-300]
-	ldr	r3, .L9+160
+	ldr	r3, .L20+160
 	str	r3, [fp, #-296]
-	ldr	r3, .L9+164
+	ldr	r3, .L20+164
 	str	r3, [fp, #-292]
-	ldr	r3, .L9+168
+	ldr	r3, .L20+168
 	str	r3, [fp, #-288]
-	ldr	r3, .L9+172
+	ldr	r3, .L20+172
 	str	r3, [fp, #-284]
-	ldr	r3, .L9+176
+	ldr	r3, .L20+176
 	str	r3, [fp, #-280]
-	ldr	r3, .L9+180
+	ldr	r3, .L20+180
 	str	r3, [fp, #-276]
-	ldr	r3, .L9+184
+	ldr	r3, .L20+184
 	str	r3, [fp, #-272]
-	ldr	r3, .L9+188
+	ldr	r3, .L20+188
 	str	r3, [fp, #-268]
-	ldr	r3, .L9+192
+	ldr	r3, .L20+192
 	str	r3, [fp, #-264]
-	ldr	r3, .L9+196
+	ldr	r3, .L20+196
 	str	r3, [fp, #-260]
-	ldr	r3, .L9+200
+	ldr	r3, .L20+200
 	str	r3, [fp, #-256]
-	ldr	r3, .L9+204
+	ldr	r3, .L20+204
 	str	r3, [fp, #-252]
-	ldr	r3, .L9+208
+	ldr	r3, .L20+208
 	str	r3, [fp, #-248]
-	ldr	r3, .L9+212
+	ldr	r3, .L20+212
 	str	r3, [fp, #-244]
-	ldr	r3, .L9+216
+	ldr	r3, .L20+216
 	str	r3, [fp, #-240]
-	ldr	r3, .L9+220
+	ldr	r3, .L20+220
 	str	r3, [fp, #-236]
-	ldr	r3, .L9+224
+	ldr	r3, .L20+224
 	str	r3, [fp, #-232]
-	ldr	r3, .L9+228
+	ldr	r3, .L20+228
 	str	r3, [fp, #-228]
-	ldr	r3, .L9+232
+	ldr	r3, .L20+232
 	str	r3, [fp, #-224]
-	ldr	r3, .L9+236
+	ldr	r3, .L20+236
 	str	r3, [fp, #-220]
-	ldr	r3, .L9+240
+	ldr	r3, .L20+240
 	str	r3, [fp, #-216]
-	ldr	r3, .L9+244
+	ldr	r3, .L20+244
 	str	r3, [fp, #-212]
-	ldr	r3, .L9+248
+	ldr	r3, .L20+248
 	str	r3, [fp, #-208]
-	ldr	r3, .L9+252
+	ldr	r3, .L20+252
 	str	r3, [fp, #-204]
-	ldr	r3, .L9+256
+	ldr	r3, .L20+256
 	str	r3, [fp, #-200]
-	ldr	r3, .L9+260
+	ldr	r3, .L20+260
 	str	r3, [fp, #-196]
-	ldr	r3, .L9+264
+	ldr	r3, .L20+264
 	str	r3, [fp, #-192]
-	ldr	r3, .L9+268
+	ldr	r3, .L20+268
 	str	r3, [fp, #-188]
-	ldr	r3, .L9+272
+	ldr	r3, .L20+272
 	str	r3, [fp, #-184]
-	ldr	r3, .L9+276
+	ldr	r3, .L20+276
 	str	r3, [fp, #-180]
-	ldr	r3, .L9+280
+	ldr	r3, .L20+280
 	str	r3, [fp, #-176]
-	ldr	r3, .L9+284
+	ldr	r3, .L20+284
 	str	r3, [fp, #-172]
-	ldr	r3, .L9+288
+	ldr	r3, .L20+288
 	str	r3, [fp, #-168]
-	ldr	r3, .L9+292
+	ldr	r3, .L20+292
 	str	r3, [fp, #-164]
-	ldr	r3, .L9+296
+	ldr	r3, .L20+296
 	str	r3, [fp, #-160]
-	ldr	r3, .L9+300
+	ldr	r3, .L20+300
 	str	r3, [fp, #-156]
-	ldr	r3, .L9+304
+	ldr	r3, .L20+304
 	str	r3, [fp, #-152]
-	ldr	r3, .L9+308
+	ldr	r3, .L20+308
 	str	r3, [fp, #-148]
-	ldr	r3, .L9+312
+	ldr	r3, .L20+312
 	str	r3, [fp, #-144]
-	ldr	r3, .L9+316
+	ldr	r3, .L20+316
 	str	r3, [fp, #-140]
-	ldr	r3, .L9+320
+	ldr	r3, .L20+320
 	str	r3, [fp, #-136]
-	ldr	r3, .L9+324
+	ldr	r3, .L20+324
 	str	r3, [fp, #-132]
-	ldr	r3, .L9+328
+	ldr	r3, .L20+328
 	str	r3, [fp, #-128]
-	ldr	r3, .L9+332
+	ldr	r3, .L20+332
 	str	r3, [fp, #-124]
-	ldr	r3, .L9+336
+	ldr	r3, .L20+336
 	str	r3, [fp, #-120]
-	ldr	r3, .L9+340
+	ldr	r3, .L20+340
 	str	r3, [fp, #-116]
-	ldr	r3, .L9+344
+	ldr	r3, .L20+344
 	str	r3, [fp, #-112]
-	ldr	r3, .L9+348
+	ldr	r3, .L20+348
 	str	r3, [fp, #-108]
-	ldr	r3, .L9+352
+	ldr	r3, .L20+352
 	str	r3, [fp, #-104]
-	ldr	r3, .L9+356
+	ldr	r3, .L20+356
 	str	r3, [fp, #-100]
-	ldr	r3, .L9+360
+	ldr	r3, .L20+360
 	str	r3, [fp, #-96]
-	ldr	r3, .L9+364
+	ldr	r3, .L20+364
 	str	r3, [fp, #-92]
-	ldr	r3, .L9+368
+	ldr	r3, .L20+368
 	str	r3, [fp, #-88]
-	ldr	r3, .L9+372
+	ldr	r3, .L20+372
 	str	r3, [fp, #-84]
-	ldr	r3, .L9+376
+	ldr	r3, .L20+376
 	str	r3, [fp, #-80]
-	ldr	r3, .L9+380
+	ldr	r3, .L20+380
 	str	r3, [fp, #-76]
-	ldr	r3, .L9+384
+	ldr	r3, .L20+384
 	str	r3, [fp, #-72]
-	ldr	r3, .L9+388
+	ldr	r3, .L20+388
 	str	r3, [fp, #-68]
-	ldr	r3, .L9+392
+	ldr	r3, .L20+392
 	str	r3, [fp, #-64]
-	ldr	r3, .L9+396
+	ldr	r3, .L20+396
 	str	r3, [fp, #-60]
 	mov	r3, #99
 	str	r3, [fp, #-32]
-	b	.L2
-.L3:
+	b	.L13
+.L14:
 	ldr	r3, [fp, #-32]
 	sub	r3, r3, #1
 	str	r3, [fp, #-32]
-.L2:
+.L13:
 	ldr	r2, [fp, #-32]
-	ldr	r3, .L9+400
+	ldr	r3, .L20+400
 	mov	r2, r2, asl #2
 	sub	r0, fp, #28
 	add	r2, r0, r2
@@ -585,11 +727,11 @@ getWords:
 	mov	r2, r3
 	ldr	r3, [fp, #-464]
 	cmp	r2, r3
-	bhi	.L3
+	bhi	.L14
 	mov	r3, #0
 	str	r3, [fp, #-36]
-	b	.L4
-.L8:
+	b	.L15
+.L19:
 	mov	r3, #1
 	str	r3, [fp, #-40]
 	bl	rand
@@ -601,32 +743,32 @@ getWords:
 	str	r3, [fp, #-56]
 	mov	r3, #0
 	str	r3, [fp, #-44]
-	b	.L5
-.L7:
+	b	.L16
+.L18:
 	ldr	r3, [fp, #-52]
 	ldr	r2, [fp, #-44]
 	ldr	r2, [r3, r2, asl #2]
 	ldr	r3, [fp, #-56]
 	cmp	r2, r3
-	bne	.L6
+	bne	.L17
 	mov	r3, #0
 	str	r3, [fp, #-40]
-.L6:
+.L17:
 	ldr	r3, [fp, #-44]
 	add	r3, r3, #1
 	str	r3, [fp, #-44]
-.L5:
+.L16:
 	ldr	r2, [fp, #-44]
 	ldr	r3, [fp, #-468]
 	cmp	r2, r3
-	blt	.L7
+	blt	.L18
 	ldr	r3, [fp, #-36]
 	mov	r3, r3, asl #2
 	ldr	r2, [fp, #-472]
 	add	r3, r2, r3
 	ldr	r2, [r3, #0]
 	ldr	r1, [fp, #-56]
-	ldr	r3, .L9+400
+	ldr	r3, .L20+400
 	mov	r1, r1, asl #2
 	sub	r0, fp, #28
 	add	r1, r0, r1
@@ -641,29 +783,21 @@ getWords:
 	str	r1, [r3, r2, asl #2]
 	ldr	r3, [fp, #-40]
 	cmp	r3, #0
-	beq	.L8
+	beq	.L19
 	ldr	r3, [fp, #-36]
 	add	r3, r3, #1
 	str	r3, [fp, #-36]
-.L4:
+.L15:
 	ldr	r2, [fp, #-36]
 	ldr	r3, [fp, #-468]
 	cmp	r2, r3
-	blt	.L8
+	blt	.L19
 	mov	sp, r8
 	sub	sp, fp, #24
 	ldmfd	sp!, {r4, r5, r6, r7, r8, fp, pc}
-.L10:
+.L21:
 	.align	2
-.L9:
-	.word	.LC0
-	.word	.LC1
-	.word	.LC2
-	.word	.LC3
-	.word	.LC4
-	.word	.LC5
-	.word	.LC6
-	.word	.LC7
+.L20:
 	.word	.LC8
 	.word	.LC9
 	.word	.LC10
@@ -756,21 +890,32 @@ getWords:
 	.word	.LC97
 	.word	.LC98
 	.word	.LC99
+	.word	.LC100
+	.word	.LC101
+	.word	.LC102
+	.word	.LC103
+	.word	.LC104
+	.word	.LC105
+	.word	.LC106
+	.word	.LC107
 	.word	-428
 	.size	getWords, .-getWords
 	.section	.rodata
 	.align	2
-.LC100:
+.LC108:
 	.ascii	"Enter a matrix size between 10-20: \000"
 	.align	2
-.LC101:
+.LC109:
 	.ascii	"%d\000"
 	.align	2
-.LC102:
+.LC110:
 	.ascii	"Incorrect input, exiting...\000"
 	.align	2
-.LC103:
+.LC111:
 	.ascii	"Input error, please try again: \000"
+	.align	2
+.LC112:
+	.ascii	"%d\012\000"
 	.text
 	.align	2
 	.global	getSize
@@ -783,10 +928,10 @@ getSize:
 	sub	sp, sp, #8
 	mov	r3, #0
 	str	r3, [fp, #-12]
-	ldr	r3, .L16
+	ldr	r3, .L27
 	mov	r0, r3
 	bl	printf
-	ldr	r2, .L16+4
+	ldr	r2, .L27+4
 	sub	r3, fp, #12
 	mov	r0, r2
 	mov	r1, r3
@@ -794,55 +939,134 @@ getSize:
 	str	r0, [fp, #-8]
 	ldr	r3, [fp, #-8]
 	cmp	r3, #1
-	beq	.L15
-	ldr	r0, .L16+8
+	beq	.L26
+	ldr	r0, .L27+8
 	bl	puts
 	mov	r0, #1
 	bl	exit
-.L14:
-	ldr	r3, .L16+12
+.L25:
+	ldr	r3, .L27+12
 	mov	r0, r3
 	bl	printf
-	ldr	r2, .L16+4
+	ldr	r2, .L27+16
 	sub	r3, fp, #12
 	mov	r0, r2
 	mov	r1, r3
 	bl	__isoc99_scanf
 	str	r0, [fp, #-8]
-	b	.L13
-.L15:
+	b	.L24
+.L26:
 	mov	r0, r0	@ nop
-.L13:
+.L24:
 	ldr	r3, [fp, #-12]
 	cmp	r3, #9
-	ble	.L14
+	ble	.L25
 	ldr	r3, [fp, #-12]
 	cmp	r3, #20
-	bgt	.L14
+	bgt	.L25
 	ldr	r3, [fp, #-12]
 	mov	r0, r3
 	sub	sp, fp, #4
 	ldmfd	sp!, {fp, pc}
-.L17:
+.L28:
 	.align	2
-.L16:
-	.word	.LC100
-	.word	.LC101
-	.word	.LC102
-	.word	.LC103
+.L27:
+	.word	.LC108
+	.word	.LC109
+	.word	.LC110
+	.word	.LC111
+	.word	.LC112
 	.size	getSize, .-getSize
 	.section	.rodata
 	.align	2
-.LC104:
+.LC113:
+	.ascii	"Enter the number of words you wish to search for be"
+	.ascii	"tween %d and %d: \000"
+	.align	2
+.LC114:
+	.ascii	"Incorrect input, exiting\342\200\246\000"
+	.align	2
+.LC115:
+	.ascii	"Input error (number not in range), please try again"
+	.ascii	": \000"
+	.text
+	.align	2
+	.global	getNumWords
+	.type	getNumWords, %function
+getNumWords:
+	@ args = 0, pretend = 0, frame = 16
+	@ frame_needed = 1, uses_anonymous_args = 0
+	stmfd	sp!, {fp, lr}
+	add	fp, sp, #4
+	sub	sp, sp, #16
+	str	r0, [fp, #-16]
+	str	r1, [fp, #-20]
+	mov	r3, #0
+	str	r3, [fp, #-12]
+	ldr	r3, .L34
+	mov	r0, r3
+	ldr	r1, [fp, #-16]
+	ldr	r2, [fp, #-20]
+	bl	printf
+	ldr	r2, .L34+4
+	sub	r3, fp, #12
+	mov	r0, r2
+	mov	r1, r3
+	bl	__isoc99_scanf
+	str	r0, [fp, #-8]
+	ldr	r3, [fp, #-8]
+	cmp	r3, #1
+	beq	.L33
+	ldr	r0, .L34+8
+	bl	puts
+	mov	r0, #1
+	bl	exit
+.L32:
+	ldr	r3, .L34+12
+	mov	r0, r3
+	bl	printf
+	ldr	r2, .L34+4
+	sub	r3, fp, #12
+	mov	r0, r2
+	mov	r1, r3
+	bl	__isoc99_scanf
+	str	r0, [fp, #-8]
+	b	.L31
+.L33:
+	mov	r0, r0	@ nop
+.L31:
+	ldr	r2, [fp, #-12]
+	ldr	r3, [fp, #-16]
+	cmp	r2, r3
+	blt	.L32
+	ldr	r2, [fp, #-12]
+	ldr	r3, [fp, #-20]
+	cmp	r2, r3
+	bgt	.L32
+	ldr	r3, [fp, #-12]
+	mov	r0, r3
+	sub	sp, fp, #4
+	ldmfd	sp!, {fp, pc}
+.L35:
+	.align	2
+.L34:
+	.word	.LC113
+	.word	.LC109
+	.word	.LC114
+	.word	.LC115
+	.size	getNumWords, .-getNumWords
+	.section	.rodata
+	.align	2
+.LC116:
 	.ascii	"\012   \000"
 	.align	2
-.LC105:
+.LC117:
 	.ascii	"%2d  \000"
 	.align	2
-.LC106:
+.LC118:
 	.ascii	"%2d| \000"
 	.align	2
-.LC107:
+.LC119:
 	.ascii	"%c   \000"
 	.text
 	.align	2
@@ -867,14 +1091,14 @@ printGrid:
 	mov	r5, r3, asl #3
 	orr	r5, r1, r5
 	mov	r4, r2, asl #3
-	ldr	r3, .L25
+	ldr	r3, .L43
 	mov	r0, r3
 	bl	printf
 	mov	r3, #0
 	str	r3, [fp, #-24]
-	b	.L19
-.L20:
-	ldr	r2, .L25+4
+	b	.L37
+.L38:
+	ldr	r2, .L43+4
 	ldr	r3, [fp, #-24]
 	add	r3, r3, #1
 	mov	r0, r2
@@ -883,18 +1107,18 @@ printGrid:
 	ldr	r3, [fp, #-24]
 	add	r3, r3, #1
 	str	r3, [fp, #-24]
-.L19:
+.L37:
 	ldr	r2, [fp, #-24]
 	ldr	r3, [fp, #-40]
 	cmp	r2, r3
-	blt	.L20
+	blt	.L38
 	mov	r0, #10
 	bl	putchar
 	mov	r3, #0
 	str	r3, [fp, #-24]
-	b	.L21
-.L24:
-	ldr	r2, .L25+8
+	b	.L39
+.L42:
+	ldr	r2, .L43+8
 	ldr	r3, [fp, #-24]
 	add	r3, r3, #1
 	mov	r0, r2
@@ -902,9 +1126,9 @@ printGrid:
 	bl	printf
 	mov	r3, #0
 	str	r3, [fp, #-28]
-	b	.L22
-.L23:
-	ldr	r2, .L25+12
+	b	.L40
+.L41:
+	ldr	r2, .L43+12
 	mov	r3, r6
 	ldr	r1, [fp, #-24]
 	mul	r3, r1, r3
@@ -919,40 +1143,40 @@ printGrid:
 	ldr	r3, [fp, #-28]
 	add	r3, r3, #1
 	str	r3, [fp, #-28]
-.L22:
+.L40:
 	ldr	r2, [fp, #-28]
 	ldr	r3, [fp, #-40]
 	cmp	r2, r3
-	blt	.L23
+	blt	.L41
 	mov	r0, #10
 	bl	putchar
 	ldr	r3, [fp, #-24]
 	add	r3, r3, #1
 	str	r3, [fp, #-24]
-.L21:
+.L39:
 	ldr	r2, [fp, #-24]
 	ldr	r3, [fp, #-40]
 	cmp	r2, r3
-	blt	.L24
+	blt	.L42
 	sub	sp, fp, #16
 	ldmfd	sp!, {r4, r5, r6, fp, pc}
-.L26:
+.L44:
 	.align	2
-.L25:
-	.word	.LC104
-	.word	.LC105
-	.word	.LC106
-	.word	.LC107
+.L43:
+	.word	.LC116
+	.word	.LC117
+	.word	.LC118
+	.word	.LC119
 	.size	printGrid, .-printGrid
 	.section	.rodata
 	.align	2
-.LC108:
+.LC120:
 	.ascii	"\012WORD KEY:\000"
 	.align	2
-.LC109:
+.LC121:
 	.ascii	"%d) %s, \000"
 	.align	2
-.LC110:
+.LC122:
 	.ascii	"%d) %s\012\012\000"
 	.text
 	.align	2
@@ -967,13 +1191,13 @@ printKey:
 	str	r0, [fp, #-16]
 	str	r1, [fp, #-20]
 	str	r2, [fp, #-24]
-	ldr	r0, .L30
+	ldr	r0, .L48
 	bl	puts
 	mov	r3, #0
 	str	r3, [fp, #-8]
-	b	.L28
-.L29:
-	ldr	r1, .L30+4
+	b	.L46
+.L47:
+	ldr	r1, .L48+4
 	ldr	r3, [fp, #-8]
 	add	r2, r3, #1
 	ldr	r3, [fp, #-8]
@@ -988,13 +1212,13 @@ printKey:
 	ldr	r3, [fp, #-8]
 	add	r3, r3, #1
 	str	r3, [fp, #-8]
-.L28:
+.L46:
 	ldr	r3, [fp, #-16]
 	sub	r2, r3, #1
 	ldr	r3, [fp, #-8]
 	cmp	r2, r3
-	bgt	.L29
-	ldr	r1, .L30+8
+	bgt	.L47
+	ldr	r1, .L48+8
 	ldr	r3, [fp, #-8]
 	add	r2, r3, #1
 	ldr	r3, [fp, #-16]
@@ -1009,20 +1233,20 @@ printKey:
 	bl	printf
 	sub	sp, fp, #4
 	ldmfd	sp!, {fp, pc}
-.L31:
+.L49:
 	.align	2
-.L30:
-	.word	.LC108
-	.word	.LC109
-	.word	.LC110
+.L48:
+	.word	.LC120
+	.word	.LC121
+	.word	.LC122
 	.size	printKey, .-printKey
 	.section	.rodata
 	.align	2
-.LC111:
+.LC123:
 	.ascii	"Please enter the word number you want to check (0 t"
 	.ascii	"o exit): \000"
 	.align	2
-.LC112:
+.LC124:
 	.ascii	"You have already found that word, please try again:"
 	.ascii	" \000"
 	.text
@@ -1039,10 +1263,10 @@ checkWordsRemain:
 	str	r1, [fp, #-28]
 	mov	r3, #0
 	str	r3, [fp, #-16]
-	ldr	r3, .L37
+	ldr	r3, .L55
 	mov	r0, r3
 	bl	printf
-	ldr	r2, .L37+4
+	ldr	r2, .L55+4
 	sub	r3, fp, #16
 	mov	r0, r2
 	mov	r1, r3
@@ -1050,18 +1274,18 @@ checkWordsRemain:
 	str	r0, [fp, #-12]
 	ldr	r3, [fp, #-16]
 	cmp	r3, #0
-	bne	.L33
+	bne	.L51
 	mov	r0, #0
 	bl	exit
-.L33:
+.L51:
 	ldr	r3, [fp, #-12]
 	cmp	r3, #1
-	beq	.L34
-	ldr	r0, .L37+8
+	beq	.L52
+	ldr	r0, .L55+8
 	bl	puts
 	mov	r0, #1
 	bl	exit
-.L34:
+.L52:
 	ldr	r3, [fp, #-16]
 	sub	r2, r3, #1
 	mov	r3, r2
@@ -1072,12 +1296,12 @@ checkWordsRemain:
 	add	r3, r2, r3
 	ldr	r3, [r3, #8]
 	str	r3, [fp, #-8]
-	b	.L35
-.L36:
-	ldr	r3, .L37+12
+	b	.L53
+.L54:
+	ldr	r3, .L55+12
 	mov	r0, r3
 	bl	printf
-	ldr	r2, .L37+4
+	ldr	r2, .L55+4
 	sub	r3, fp, #16
 	mov	r0, r2
 	mov	r1, r3
@@ -1095,30 +1319,30 @@ checkWordsRemain:
 	str	r3, [fp, #-8]
 	ldr	r3, [fp, #-12]
 	cmp	r3, #1
-	beq	.L35
-	ldr	r0, .L37+8
+	beq	.L53
+	ldr	r0, .L55+8
 	bl	puts
 	mov	r0, #1
 	bl	exit
-.L35:
+.L53:
 	ldr	r3, [fp, #-8]
 	cmp	r3, #1
-	beq	.L36
+	beq	.L54
 	ldr	r3, [fp, #-16]
 	mov	r0, r3
 	sub	sp, fp, #4
 	ldmfd	sp!, {fp, pc}
-.L38:
+.L56:
 	.align	2
-.L37:
-	.word	.LC111
-	.word	.LC101
-	.word	.LC102
-	.word	.LC112
+.L55:
+	.word	.LC123
+	.word	.LC109
+	.word	.LC110
+	.word	.LC124
 	.size	checkWordsRemain, .-checkWordsRemain
 	.section	.rodata
 	.align	2
-.LC113:
+.LC125:
 	.ascii	"YOU WON! Thanks for playing!\000"
 	.text
 	.align	2
@@ -1136,8 +1360,8 @@ checkFinished:
 	str	r3, [fp, #-8]
 	mov	r3, #0
 	str	r3, [fp, #-12]
-	b	.L40
-.L42:
+	b	.L58
+.L60:
 	ldr	r2, [fp, #-12]
 	mov	r3, r2
 	mov	r3, r3, asl #1
@@ -1147,250 +1371,271 @@ checkFinished:
 	add	r3, r2, r3
 	ldr	r3, [r3, #8]
 	cmp	r3, #0
-	bne	.L41
+	bne	.L59
 	mov	r3, #0
 	str	r3, [fp, #-8]
-.L41:
+.L59:
 	ldr	r3, [fp, #-12]
 	add	r3, r3, #1
 	str	r3, [fp, #-12]
-.L40:
+.L58:
 	ldr	r2, [fp, #-12]
 	ldr	r3, [fp, #-16]
 	cmp	r2, r3
-	blt	.L42
+	blt	.L60
 	ldr	r3, [fp, #-8]
 	cmp	r3, #1
-	bne	.L43
-	ldr	r0, .L44
+	bne	.L61
+	ldr	r0, .L62
 	bl	puts
-.L43:
+.L61:
 	ldr	r3, [fp, #-8]
 	mov	r0, r3
 	sub	sp, fp, #4
 	ldmfd	sp!, {fp, pc}
-.L45:
+.L63:
 	.align	2
-.L44:
-	.word	.LC113
+.L62:
+	.word	.LC125
 	.size	checkFinished, .-checkFinished
 	.section	.rodata
 	.align	2
-.LC114:
+.LC126:
 	.ascii	"What row do you think '%s' appears in: \000"
 	.align	2
-.LC115:
+.LC127:
 	.ascii	"The number you have entered is out of bounds, pleas"
 	.ascii	"e enter a number between 1 and %d: \000"
 	.align	2
-.LC116:
+.LC128:
 	.ascii	"Sorry that wasn't correct\000"
 	.align	2
-.LC117:
+.LC129:
 	.ascii	"CORRECT! Now what column do you think the first let"
 	.ascii	"ter of '%s' appears in: \000"
 	.align	2
-.LC118:
+.LC130:
 	.ascii	"CORRECT!\000"
+	.align	2
+.LC131:
+	.ascii	"Your current score is %d\012\000"
 	.text
 	.align	2
 	.global	playGame
 	.type	playGame, %function
 playGame:
-	@ args = 0, pretend = 0, frame = 40
+	@ args = 0, pretend = 0, frame = 48
 	@ frame_needed = 1, uses_anonymous_args = 0
 	stmfd	sp!, {fp, lr}
 	add	fp, sp, #4
-	sub	sp, sp, #40
-	str	r0, [fp, #-32]
-	str	r1, [fp, #-36]
-	str	r2, [fp, #-40]
-	str	r3, [fp, #-44]
+	sub	sp, sp, #48
+	str	r0, [fp, #-40]
+	str	r1, [fp, #-44]
+	str	r2, [fp, #-48]
+	str	r3, [fp, #-52]
 	mov	r3, #0
 	str	r3, [fp, #-8]
-	b	.L47
-.L57:
 	mov	r3, #0
 	str	r3, [fp, #-12]
+	b	.L65
+.L75:
 	mov	r3, #0
-	str	r3, [fp, #-24]
+	str	r3, [fp, #-16]
 	mov	r3, #0
 	str	r3, [fp, #-28]
-	ldr	r0, [fp, #-32]
-	ldr	r1, [fp, #-40]
+	mov	r3, #0
+	str	r3, [fp, #-32]
+	ldr	r0, [fp, #-40]
+	ldr	r1, [fp, #-48]
 	bl	checkWordsRemain
-	str	r0, [fp, #-12]
-	ldr	r2, .L58
-	ldr	r3, [fp, #-12]
+	str	r0, [fp, #-16]
+	ldr	r2, .L76
+	ldr	r3, [fp, #-16]
 	sub	r3, r3, #1
 	mov	r3, r3, asl #2
-	ldr	r1, [fp, #-44]
+	ldr	r1, [fp, #-52]
 	add	r3, r1, r3
 	ldr	r3, [r3, #0]
 	mov	r0, r2
 	mov	r1, r3
 	bl	printf
-	ldr	r2, .L58+4
-	sub	r3, fp, #24
+	ldr	r2, .L76+4
+	sub	r3, fp, #28
 	mov	r0, r2
 	mov	r1, r3
 	bl	__isoc99_scanf
-	str	r0, [fp, #-16]
-	ldr	r3, [fp, #-16]
+	str	r0, [fp, #-20]
+	ldr	r3, [fp, #-20]
 	cmp	r3, #1
-	beq	.L48
-	ldr	r0, .L58+8
+	beq	.L66
+	ldr	r0, .L76+8
 	bl	puts
 	mov	r0, #1
 	bl	exit
-.L48:
-	ldr	r3, [fp, #-12]
+.L66:
+	ldr	r3, [fp, #-16]
 	sub	r2, r3, #1
 	mov	r3, r2
 	mov	r3, r3, asl #1
 	add	r3, r3, r2
 	mov	r3, r3, asl #2
-	ldr	r2, [fp, #-40]
+	ldr	r2, [fp, #-48]
 	add	r3, r2, r3
 	ldr	r3, [r3, #4]
-	str	r3, [fp, #-20]
-	b	.L49
-.L50:
-	ldr	r3, .L58+12
+	str	r3, [fp, #-24]
+	b	.L67
+.L68:
+	ldr	r3, .L76+12
 	mov	r0, r3
-	ldr	r1, [fp, #-36]
+	ldr	r1, [fp, #-44]
 	bl	printf
-	ldr	r2, .L58+4
-	sub	r3, fp, #24
+	ldr	r2, .L76+4
+	sub	r3, fp, #28
 	mov	r0, r2
 	mov	r1, r3
 	bl	__isoc99_scanf
-	str	r0, [fp, #-16]
-	ldr	r3, [fp, #-16]
+	str	r0, [fp, #-20]
+	ldr	r3, [fp, #-20]
 	cmp	r3, #1
-	beq	.L49
-	ldr	r0, .L58+8
+	beq	.L67
+	ldr	r0, .L76+8
 	bl	puts
 	mov	r0, #1
 	bl	exit
-.L49:
-	ldr	r3, [fp, #-24]
+.L67:
+	ldr	r3, [fp, #-28]
 	cmp	r3, #0
-	ble	.L50
+	ble	.L68
+	ldr	r2, [fp, #-28]
+	ldr	r3, [fp, #-44]
+	cmp	r2, r3
+	bgt	.L68
+	ldr	r3, [fp, #-28]
 	ldr	r2, [fp, #-24]
-	ldr	r3, [fp, #-36]
 	cmp	r2, r3
-	bgt	.L50
-	ldr	r3, [fp, #-24]
-	ldr	r2, [fp, #-20]
-	cmp	r2, r3
-	beq	.L51
-	ldr	r0, .L58+16
+	beq	.L69
+	ldr	r0, .L76+16
 	bl	puts
-	b	.L47
-.L51:
-	ldr	r2, .L58+20
 	ldr	r3, [fp, #-12]
+	sub	r3, r3, #3
+	str	r3, [fp, #-12]
+	b	.L65
+.L69:
+	ldr	r2, .L76+20
+	ldr	r3, [fp, #-16]
 	sub	r3, r3, #1
 	mov	r3, r3, asl #2
-	ldr	r1, [fp, #-44]
+	ldr	r1, [fp, #-52]
 	add	r3, r1, r3
 	ldr	r3, [r3, #0]
 	mov	r0, r2
 	mov	r1, r3
 	bl	printf
-	ldr	r2, .L58+4
-	sub	r3, fp, #28
+	ldr	r2, .L76+4
+	sub	r3, fp, #32
 	mov	r0, r2
 	mov	r1, r3
 	bl	__isoc99_scanf
-	str	r0, [fp, #-16]
-	ldr	r3, [fp, #-16]
+	str	r0, [fp, #-20]
+	ldr	r3, [fp, #-20]
 	cmp	r3, #1
-	beq	.L52
-	ldr	r0, .L58+8
+	beq	.L70
+	ldr	r0, .L76+8
 	bl	puts
 	mov	r0, #1
 	bl	exit
-.L52:
-	ldr	r3, [fp, #-12]
+.L70:
+	ldr	r3, [fp, #-16]
 	sub	r2, r3, #1
 	mov	r3, r2
 	mov	r3, r3, asl #1
 	add	r3, r3, r2
 	mov	r3, r3, asl #2
-	ldr	r2, [fp, #-40]
+	ldr	r2, [fp, #-48]
 	add	r3, r2, r3
 	ldr	r3, [r3, #0]
-	str	r3, [fp, #-20]
-	b	.L53
-.L54:
-	ldr	r3, .L58+12
+	str	r3, [fp, #-24]
+	b	.L71
+.L72:
+	ldr	r3, .L76+12
 	mov	r0, r3
-	ldr	r1, [fp, #-36]
+	ldr	r1, [fp, #-44]
 	bl	printf
-	ldr	r2, .L58+4
-	sub	r3, fp, #28
+	ldr	r2, .L76+4
+	sub	r3, fp, #32
 	mov	r0, r2
 	mov	r1, r3
 	bl	__isoc99_scanf
-	str	r0, [fp, #-16]
-	ldr	r3, [fp, #-16]
+	str	r0, [fp, #-20]
+	ldr	r3, [fp, #-20]
 	cmp	r3, #1
-	beq	.L53
-	ldr	r0, .L58+8
+	beq	.L71
+	ldr	r0, .L76+8
 	bl	puts
 	mov	r0, #1
 	bl	exit
-.L53:
-	ldr	r3, [fp, #-28]
+.L71:
+	ldr	r3, [fp, #-32]
 	cmp	r3, #0
-	ble	.L54
-	ldr	r2, [fp, #-28]
-	ldr	r3, [fp, #-36]
+	ble	.L72
+	ldr	r2, [fp, #-32]
+	ldr	r3, [fp, #-44]
 	cmp	r2, r3
-	bgt	.L54
-	ldr	r3, [fp, #-28]
-	ldr	r2, [fp, #-20]
+	bgt	.L72
+	ldr	r3, [fp, #-32]
+	ldr	r2, [fp, #-24]
 	cmp	r2, r3
-	beq	.L55
-	ldr	r0, .L58+16
-	bl	puts
-	b	.L56
-.L55:
-	ldr	r0, .L58+24
+	beq	.L73
+	ldr	r0, .L76+16
 	bl	puts
 	ldr	r3, [fp, #-12]
+	sub	r3, r3, #3
+	str	r3, [fp, #-12]
+	b	.L74
+.L73:
+	ldr	r0, .L76+24
+	bl	puts
+	ldr	r3, [fp, #-16]
 	sub	r2, r3, #1
 	mov	r3, r2
 	mov	r3, r3, asl #1
 	add	r3, r3, r2
 	mov	r3, r3, asl #2
-	ldr	r2, [fp, #-40]
+	ldr	r2, [fp, #-48]
 	add	r3, r2, r3
 	mov	r2, #1
 	str	r2, [r3, #8]
-.L56:
-	ldr	r0, [fp, #-32]
-	ldr	r1, [fp, #-40]
+	ldr	r3, [fp, #-12]
+	add	r3, r3, #5
+	str	r3, [fp, #-12]
+.L74:
+	ldr	r0, [fp, #-40]
+	ldr	r1, [fp, #-48]
 	bl	checkFinished
 	str	r0, [fp, #-8]
-.L47:
+	ldr	r3, .L76+28
+	mov	r0, r3
+	ldr	r1, [fp, #-12]
+	bl	printf
+.L65:
 	ldr	r3, [fp, #-8]
 	cmp	r3, #0
-	beq	.L57
+	beq	.L75
+	ldr	r3, [fp, #-12]
+	mov	r0, r3
 	sub	sp, fp, #4
 	ldmfd	sp!, {fp, pc}
-.L59:
+.L77:
 	.align	2
-.L58:
-	.word	.LC114
-	.word	.LC101
-	.word	.LC102
-	.word	.LC115
-	.word	.LC116
-	.word	.LC117
-	.word	.LC118
+.L76:
+	.word	.LC126
+	.word	.LC109
+	.word	.LC110
+	.word	.LC127
+	.word	.LC128
+	.word	.LC129
+	.word	.LC130
+	.word	.LC131
 	.size	playGame, .-playGame
 	.align	2
 	.global	reverseString
@@ -1436,11 +1681,29 @@ reverseString:
 	str	r3, [fp, #-32]
 	mov	r3, #0
 	str	r3, [fp, #-24]
-	b	.L61
-.L62:
+	b	.L79
+.L80:
+	ldr	r2, [fp, #-32]
+	ldr	r3, [fp, #-24]
+	add	r3, r2, r3
+	mov	r2, #0
+	strb	r2, [r3, #0]
+	ldr	r3, [fp, #-24]
+	add	r3, r3, #1
+	str	r3, [fp, #-24]
+.L79:
+	ldr	r2, [fp, #-24]
+	ldr	r3, [fp, #-40]
+	cmp	r2, r3
+	blt	.L80
+	mov	r3, #0
+	str	r3, [fp, #-24]
+	b	.L81
+.L82:
 	ldr	r2, [fp, #-40]
 	ldr	r3, [fp, #-24]
 	rsb	r3, r3, r2
+	sub	r3, r3, #2
 	ldr	r2, [fp, #-44]
 	add	r3, r2, r3
 	ldrb	r2, [r3, #0]	@ zero_extendqisi2
@@ -1451,14 +1714,17 @@ reverseString:
 	ldr	r3, [fp, #-24]
 	add	r3, r3, #1
 	str	r3, [fp, #-24]
-.L61:
-	ldr	r2, [fp, #-24]
+.L81:
 	ldr	r3, [fp, #-40]
+	sub	r2, r3, #1
+	ldr	r3, [fp, #-24]
 	cmp	r2, r3
-	blt	.L62
+	bgt	.L82
 	ldr	r3, [fp, #-32]
 	str	r3, [fp, #-44]
+	ldr	r3, [fp, #-44]
 	mov	sp, ip
+	mov	r0, r3
 	sub	sp, fp, #16
 	ldmfd	sp!, {r4, r5, r6, r7, fp}
 	bx	lr
@@ -1531,8 +1797,8 @@ createMatrix:
 	bl	memset
 	mov	r3, #0
 	str	r3, [fp, #-32]
-	b	.L64
-.L65:
+	b	.L84
+.L85:
 	ldr	r0, [fp, #-32]
 	ldr	r1, [fp, #-72]
 	bl	__aeabi_idiv
@@ -1551,21 +1817,21 @@ createMatrix:
 	ldr	r3, [fp, #-32]
 	add	r3, r3, #1
 	str	r3, [fp, #-32]
-.L64:
+.L84:
 	ldr	r3, [fp, #-72]
 	ldr	r2, [fp, #-72]
 	mul	r2, r2, r3
 	ldr	r3, [fp, #-32]
 	cmp	r2, r3
-	bgt	.L65
+	bgt	.L85
 	mov	r3, #0
 	str	r3, [fp, #-32]
-	b	.L66
-.L69:
+	b	.L86
+.L89:
 	mov	r3, #0
 	str	r3, [fp, #-36]
-	b	.L67
-.L68:
+	b	.L87
+.L88:
 	ldr	r2, [fp, #-32]
 	mov	r3, r2
 	mov	r3, r3, asl #1
@@ -1579,22 +1845,22 @@ createMatrix:
 	ldr	r3, [fp, #-36]
 	add	r3, r3, #1
 	str	r3, [fp, #-36]
-.L67:
+.L87:
 	ldr	r3, [fp, #-36]
 	cmp	r3, #2
-	ble	.L68
+	ble	.L88
 	ldr	r3, [fp, #-32]
 	add	r3, r3, #1
 	str	r3, [fp, #-32]
-.L66:
+.L86:
 	ldr	r2, [fp, #-32]
 	ldr	r3, [fp, #-76]
 	cmp	r2, r3
-	blt	.L69
+	blt	.L89
 	mov	r3, #0
 	str	r3, [fp, #-32]
-	b	.L70
-.L71:
+	b	.L90
+.L91:
 	mov	r3, r6
 	ldr	r2, [fp, #-32]
 	mul	r3, r2, r3
@@ -1607,15 +1873,15 @@ createMatrix:
 	ldr	r3, [fp, #-32]
 	add	r3, r3, #1
 	str	r3, [fp, #-32]
-.L70:
+.L90:
 	ldr	r2, [fp, #-32]
 	ldr	r3, [fp, #-72]
 	cmp	r2, r3
-	blt	.L71
+	blt	.L91
 	mov	r3, #0
 	str	r3, [fp, #-32]
-	b	.L72
-.L78:
+	b	.L92
+.L99:
 	ldr	r3, [fp, #-32]
 	mov	r3, r3, asl #2
 	ldr	r2, [fp, #-80]
@@ -1635,16 +1901,30 @@ createMatrix:
 	str	r3, [fp, #-60]
 	ldr	r3, [fp, #-60]
 	cmp	r3, #1
-	bne	.L73
+	bne	.L93
 	ldr	r3, [fp, #-32]
 	mov	r3, r3, asl #2
 	ldr	r2, [fp, #-80]
 	add	r3, r2, r3
+	ldr	r4, [r3, #0]
+	ldr	r3, [fp, #-56]
+	add	r2, r3, #1
+	ldr	r3, [fp, #-32]
+	mov	r3, r3, asl #2
+	ldr	r1, [fp, #-80]
+	add	r3, r1, r3
 	ldr	r3, [r3, #0]
-	ldr	r0, [fp, #-56]
+	mov	r0, r2
 	mov	r1, r3
 	bl	reverseString
-.L73:
+	mov	r3, r0
+	mov	r2, r3
+	ldr	r3, [fp, #-56]
+	mov	r0, r4
+	mov	r1, r2
+	mov	r2, r3
+	bl	strncpy
+.L93:
 	bl	rand
 	mov	r2, r0
 	ldr	r1, [fp, #-72]
@@ -1666,7 +1946,7 @@ createMatrix:
 	ldr	r2, [fp, #-40]
 	ldr	r3, [r3, r2, asl #2]
 	cmp	r3, #0
-	bne	.L82
+	bne	.L103
 	mov	r3, r6
 	ldr	r2, [fp, #-40]
 	mul	r2, r2, r3
@@ -1689,8 +1969,8 @@ createMatrix:
 	ldr	r2, [fp, #-40]
 	mov	r1, #1
 	str	r1, [r3, r2, asl #2]
-	b	.L75
-.L77:
+	b	.L95
+.L97:
 	bl	rand
 	mov	r3, r0
 	mov	r0, r3
@@ -1698,16 +1978,20 @@ createMatrix:
 	bl	__aeabi_idivmod
 	mov	r3, r1
 	str	r3, [fp, #-40]
-	b	.L76
-.L82:
+	b	.L96
+.L103:
 	mov	r0, r0	@ nop
-.L76:
+.L96:
 	ldr	r3, [fp, #-52]
 	ldr	r2, [fp, #-40]
 	ldr	r3, [r3, r2, asl #2]
 	cmp	r3, #1
-	beq	.L77
-.L75:
+	beq	.L97
+	ldr	r3, [fp, #-52]
+	ldr	r2, [fp, #-40]
+	mov	r1, #1
+	str	r1, [r3, r2, asl #2]
+.L95:
 	mov	r3, r6
 	ldr	r2, [fp, #-40]
 	mul	r2, r2, r3
@@ -1726,6 +2010,32 @@ createMatrix:
 	mov	r1, r2
 	mov	r2, r3
 	bl	strncpy
+	ldr	r3, [fp, #-60]
+	cmp	r3, #1
+	bne	.L98
+	ldr	r3, [fp, #-32]
+	mov	r3, r3, asl #2
+	ldr	r2, [fp, #-80]
+	add	r3, r2, r3
+	ldr	r4, [r3, #0]
+	ldr	r3, [fp, #-56]
+	add	r2, r3, #1
+	ldr	r3, [fp, #-32]
+	mov	r3, r3, asl #2
+	ldr	r1, [fp, #-80]
+	add	r3, r1, r3
+	ldr	r3, [r3, #0]
+	mov	r0, r2
+	mov	r1, r3
+	bl	reverseString
+	mov	r3, r0
+	mov	r2, r3
+	ldr	r3, [fp, #-56]
+	mov	r0, r4
+	mov	r1, r2
+	mov	r2, r3
+	bl	strncpy
+.L98:
 	ldr	r2, [fp, #-32]
 	mov	r3, r2
 	mov	r3, r3, asl #1
@@ -1749,15 +2059,15 @@ createMatrix:
 	ldr	r3, [fp, #-32]
 	add	r3, r3, #1
 	str	r3, [fp, #-32]
-.L72:
+.L92:
 	ldr	r2, [fp, #-32]
 	ldr	r3, [fp, #-76]
 	cmp	r2, r3
-	blt	.L78
+	blt	.L99
 	mov	r3, #0
 	str	r3, [fp, #-32]
-	b	.L79
-.L81:
+	b	.L100
+.L102:
 	ldr	r0, [fp, #-32]
 	ldr	r1, [fp, #-72]
 	bl	__aeabi_idiv
@@ -1773,7 +2083,7 @@ createMatrix:
 	mov	r3, r1
 	ldrb	r3, [r4, r3]	@ zero_extendqisi2
 	cmp	r3, #48
-	bne	.L80
+	bne	.L101
 	ldr	r0, [fp, #-32]
 	ldr	r1, [fp, #-72]
 	bl	__aeabi_idiv
@@ -1790,7 +2100,7 @@ createMatrix:
 	mov	r4, r3
 	bl	rand
 	mov	r1, r0
-	ldr	r3, .L83
+	ldr	r3, .L104
 	smull	r2, r3, r3, r1
 	mov	r2, r3, asr #3
 	mov	r3, r1, asr #31
@@ -1805,60 +2115,76 @@ createMatrix:
 	add	r3, r3, #97
 	uxtb	r3, r3
 	strb	r3, [r5, r4]
-.L80:
+.L101:
 	ldr	r3, [fp, #-32]
 	add	r3, r3, #1
 	str	r3, [fp, #-32]
-.L79:
+.L100:
 	ldr	r3, [fp, #-72]
 	ldr	r2, [fp, #-72]
 	mul	r2, r2, r3
 	ldr	r3, [fp, #-32]
 	cmp	r2, r3
-	bgt	.L81
+	bgt	.L102
 	mov	sp, r7
 	sub	sp, fp, #28
 	ldmfd	sp!, {r4, r5, r6, r7, r8, r9, fp, pc}
-.L84:
+.L105:
 	.align	2
-.L83:
+.L104:
 	.word	1374389535
 	.size	createMatrix, .-createMatrix
 	.align	2
 	.global	main
 	.type	main, %function
 main:
-	@ args = 0, pretend = 0, frame = 64
+	@ args = 0, pretend = 0, frame = 80
 	@ frame_needed = 1, uses_anonymous_args = 0
 	stmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
 	add	fp, sp, #32
-	sub	sp, sp, #76
+	sub	sp, sp, #92
+	mov	r3, #1
+	str	r3, [fp, #-40]
+	b	.L107
+.L110:
 	mov	r3, sp
-	mov	r9, r3
+	mov	sl, r3
 	bl	getSize
-	str	r0, [fp, #-44]
-	ldr	r2, [fp, #-44]
+	str	r0, [fp, #-48]
+	ldr	r2, [fp, #-48]
 	mov	r3, r2, lsr #31
 	add	r3, r3, r2
 	mov	r3, r3, asr #1
-	str	r3, [fp, #-48]
-	ldr	r0, [fp, #-48]
+	mov	r0, r3
+	ldr	r1, [fp, #-48]
+	bl	getNumWords
+	str	r0, [fp, #-52]
+	mov	r0, #0
+	bl	time
+	mov	r3, r0
+	mov	r0, r3
+	bl	srand
+	ldr	r0, [fp, #-52]
 	sub	r3, r0, #1
-	str	r3, [fp, #-52]
+	str	r3, [fp, #-56]
 	mov	r1, r0
 	mov	r2, r1
 	mov	r3, #0
 	mov	r1, r2, lsr #27
-	mov	r5, r3, asl #5
-	orr	r5, r1, r5
-	mov	r4, r2, asl #5
+	mov	ip, r3, asl #5
+	str	ip, [fp, #-88]
+	ldr	ip, [fp, #-88]
+	orr	ip, r1, ip
+	str	ip, [fp, #-88]
+	mov	r1, r2, asl #5
+	str	r1, [fp, #-92]
 	mov	r1, r0
 	mov	r2, r1
 	mov	r3, #0
 	mov	r1, r2, lsr #27
-	mov	r7, r3, asl #5
-	orr	r7, r1, r7
-	mov	r6, r2, asl #5
+	mov	r9, r3, asl #5
+	orr	r9, r1, r9
+	mov	r8, r2, asl #5
 	mov	r3, r0
 	mov	r3, r3, asl #2
 	add	r3, r3, #7
@@ -1870,38 +2196,38 @@ main:
 	add	r3, r3, #7
 	mov	r3, r3, lsr #3
 	mov	r3, r3, asl #3
-	str	r3, [fp, #-56]
+	str	r3, [fp, #-60]
 	mov	r3, #0
-	str	r3, [fp, #-40]
-	b	.L86
-.L87:
-	ldr	r3, [fp, #-44]
+	str	r3, [fp, #-44]
+	b	.L108
+.L109:
+	ldr	r3, [fp, #-48]
 	add	r3, r3, #1
 	mov	r0, r3
 	bl	malloc
 	mov	r3, r0
 	mov	r1, r3
-	ldr	r3, [fp, #-56]
-	ldr	r2, [fp, #-40]
+	ldr	r3, [fp, #-60]
+	ldr	r2, [fp, #-44]
 	str	r1, [r3, r2, asl #2]
-	ldr	r3, [fp, #-40]
-	add	r3, r3, #1
-	str	r3, [fp, #-40]
-.L86:
-	ldr	r2, [fp, #-40]
 	ldr	r3, [fp, #-44]
+	add	r3, r3, #1
+	str	r3, [fp, #-44]
+.L108:
+	ldr	r2, [fp, #-44]
+	ldr	r3, [fp, #-48]
 	cmp	r2, r3
-	blt	.L87
-	ldr	r3, [fp, #-56]
-	ldr	r0, [fp, #-44]
-	ldr	r1, [fp, #-48]
+	blt	.L109
+	ldr	r3, [fp, #-60]
+	ldr	r0, [fp, #-48]
+	ldr	r1, [fp, #-52]
 	mov	r2, r3
 	bl	getWords
-	ldr	lr, [fp, #-48]
+	ldr	lr, [fp, #-52]
 	mov	r3, sp
-	mov	sl, r3
+	mov	r7, r3
 	sub	r3, lr, #1
-	str	r3, [fp, #-60]
+	str	r3, [fp, #-64]
 	mov	r3, lr
 	mov	r0, r3
 	mov	r1, #0
@@ -1945,28 +2271,29 @@ main:
 	add	r3, r3, #7
 	mov	r3, r3, lsr #3
 	mov	r3, r3, asl #3
-	str	r3, [fp, #-64]
-	ldr	r3, [fp, #-44]
-	add	lr, r3, #1
-	ldr	r8, [fp, #-44]
-	sub	r3, lr, #1
 	str	r3, [fp, #-68]
+	ldr	r3, [fp, #-48]
+	add	lr, r3, #1
+	ldr	r6, [fp, #-48]
+	sub	r3, lr, #1
+	str	r3, [fp, #-72]
 	mov	r1, lr
 	mov	r2, r1
 	mov	r3, #0
 	mov	r1, r2, lsr #29
-	mov	r0, r3, asl #3
-	str	r0, [fp, #-80]
-	ldr	r0, [fp, #-80]
+	mov	ip, r3, asl #3
+	str	ip, [fp, #-96]
+	ldr	r0, [fp, #-96]
 	orr	r0, r1, r0
-	str	r0, [fp, #-80]
+	str	r0, [fp, #-96]
 	mov	r1, r2, asl #3
-	sub	r3, r8, #1
-	str	r3, [fp, #-72]
+	str	r1, [fp, #-100]
+	sub	r3, r6, #1
+	str	r3, [fp, #-76]
 	mov	r3, lr
 	mov	r4, r3
 	mov	r5, #0
-	mov	r3, r8
+	mov	r3, r6
 	mov	r0, r3
 	mov	r1, #0
 	mul	r2, r0, r5
@@ -1976,34 +2303,36 @@ main:
 	add	r1, ip, r3
 	mov	r3, r1
 	mov	r1, r2, lsr #29
-	mov	r0, r3, asl #3
-	str	r0, [fp, #-88]
-	ldr	r0, [fp, #-88]
+	mov	ip, r3, asl #3
+	str	ip, [fp, #-104]
+	ldr	r0, [fp, #-104]
 	orr	r0, r1, r0
-	str	r0, [fp, #-88]
+	str	r0, [fp, #-104]
 	mov	r1, r2, asl #3
+	str	r1, [fp, #-108]
 	mov	r3, lr
-	mov	r6, r3
-	mov	r7, #0
-	mov	r3, r8
 	mov	r4, r3
 	mov	r5, #0
-	mul	r2, r4, r7
-	mul	r3, r6, r5
-	add	r1, r2, r3
-	umull	r2, r3, r6, r4
-	add	r1, r1, r3
+	mov	r3, r6
+	mov	r0, r3
+	mov	r1, #0
+	mul	r2, r0, r5
+	mul	r3, r4, r1
+	add	ip, r2, r3
+	umull	r2, r3, r4, r0
+	add	r1, ip, r3
 	mov	r3, r1
 	mov	r1, r2, lsr #29
-	mov	r0, r3, asl #3
-	str	r0, [fp, #-96]
-	ldr	r0, [fp, #-96]
+	mov	ip, r3, asl #3
+	str	ip, [fp, #-112]
+	ldr	r0, [fp, #-112]
 	orr	r0, r1, r0
-	str	r0, [fp, #-96]
+	str	r0, [fp, #-112]
 	mov	r1, r2, asl #3
-	mov	r3, lr
-	mov	r2, r8
-	mul	r3, r2, r3
+	str	r1, [fp, #-116]
+	mov	r2, lr
+	mov	r3, r6
+	mul	r3, r3, r2
 	add	r3, r3, #7
 	add	r3, r3, #7
 	mov	r3, r3, lsr #3
@@ -2013,31 +2342,44 @@ main:
 	add	r3, r3, #7
 	mov	r3, r3, lsr #3
 	mov	r3, r3, asl #3
-	str	r3, [fp, #-76]
-	ldr	r2, [fp, #-56]
-	ldr	r3, [fp, #-64]
-	ldr	r1, [fp, #-76]
-	str	r1, [sp, #0]
-	ldr	r0, [fp, #-44]
-	ldr	r1, [fp, #-48]
+	str	r3, [fp, #-80]
+	ldr	r2, [fp, #-60]
+	ldr	ip, [fp, #-68]
+	ldr	r3, [fp, #-80]
+	str	r3, [sp, #0]
+	ldr	r0, [fp, #-48]
+	ldr	r1, [fp, #-52]
+	mov	r3, ip
 	bl	createMatrix
-	ldr	r3, [fp, #-76]
-	ldr	r0, [fp, #-44]
+	ldr	r3, [fp, #-80]
+	ldr	r0, [fp, #-48]
 	mov	r1, r3
 	bl	printGrid
-	ldr	r3, [fp, #-56]
-	ldr	r0, [fp, #-48]
-	ldr	r1, [fp, #-44]
+	ldr	r3, [fp, #-60]
+	ldr	r0, [fp, #-52]
+	ldr	r1, [fp, #-48]
 	mov	r2, r3
 	bl	printKey
-	ldr	r2, [fp, #-64]
-	ldr	r3, [fp, #-56]
-	ldr	r0, [fp, #-48]
-	ldr	r1, [fp, #-44]
+	ldr	r3, [fp, #-68]
+	ldr	ip, [fp, #-60]
+	ldr	r0, [fp, #-52]
+	ldr	r1, [fp, #-48]
+	mov	r2, r3
+	mov	r3, ip
 	bl	playGame
-	mov	r3, #0
+	str	r0, [fp, #-84]
+	ldr	r0, [fp, #-84]
+	ldr	r1, [fp, #-52]
+	bl	displayInfo
+	bl	playAgain
+	str	r0, [fp, #-40]
+	mov	sp, r7
 	mov	sp, sl
-	mov	sp, r9
+.L107:
+	ldr	r3, [fp, #-40]
+	cmp	r3, #1
+	beq	.L110
+	mov	r3, #0
 	mov	r0, r3
 	sub	sp, fp, #32
 	ldmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
