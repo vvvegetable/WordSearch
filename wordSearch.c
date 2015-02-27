@@ -33,7 +33,7 @@ void displayInfo(int score, int numWords){
   int numMistakes = (maxScore - score)/3;
   printf("Hello %s, your final score was %d out of a possible %d. You made %d mistakes.\n", name, score, maxScore, numMistakes);
 }
-//CODE FOR SOMEONE: 
+//LARRY: 
 void getWords(int size,int numWords,char *words[numWords]) {
   int usedWords[numWords]; //so we don't get repeats when selecting random words
   memset (usedWords, -1, sizeof(usedWords));   //set array to -1s
